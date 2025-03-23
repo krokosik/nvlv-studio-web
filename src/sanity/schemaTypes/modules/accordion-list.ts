@@ -24,7 +24,7 @@ export default defineType({
 		defineField({
 			name: 'intro',
 			type: 'array',
-			of: [{ type: 'block' }],
+			of: [{ type: 'custom-block' }],
 			group: 'content',
 		}),
 		defineField({
@@ -43,7 +43,7 @@ export default defineType({
 							name: 'content',
 							type: 'array',
 							of: [
-								{ type: 'block' },
+								{ type: 'custom-block' },
 								imageBlock,
 								defineArrayMember({
 									title: 'Code block',

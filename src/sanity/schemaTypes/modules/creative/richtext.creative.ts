@@ -14,7 +14,7 @@ export default defineArrayMember({
 		defineField({
 			name: 'content',
 			type: 'array',
-			of: [{ type: 'block' }],
+			of: [{ type: 'custom-block' }],
 		}),
 	],
 	preview: {

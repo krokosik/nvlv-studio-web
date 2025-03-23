@@ -38,7 +38,8 @@ export default defineType({
 			type: 'array',
 			of: [
 				{
-					type: 'block',
+					type: 'custom-block',
+					// @ts-ignore
 					styles: [{ title: 'Normal', value: 'normal' }],
 					lists: [],
 				},

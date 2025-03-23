@@ -12,7 +12,7 @@ export default defineType({
 		defineField({
 			name: 'content',
 			type: 'array',
-			of: [{ type: 'block' }, { type: 'code' }, reputationBlock],
+			of: [{ type: 'custom-block' }, { type: 'code' }, reputationBlock],
 		}),
 		defineField({
 			name: 'ctas',

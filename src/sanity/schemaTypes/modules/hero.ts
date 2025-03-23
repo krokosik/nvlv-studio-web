@@ -11,6 +11,7 @@ export default defineType({
 	type: 'object',
 	groups: [
 		{ name: 'content', default: true },
+		{ name: 'orbs' },
 		{ name: 'asset' },
 		{ name: 'options' },
 	],
@@ -26,6 +27,12 @@ export default defineType({
 			group: 'options',
 		}),
 		defineField({
+			name: 'textColor',
+			title: 'Text color',
+			type: 'simplerColor',
+			group: 'content',
+		}),
+		defineField({
 			name: 'pretitle',
 			type: 'string',
 			group: 'content',
@@ -33,7 +40,7 @@ export default defineType({
 		defineField({
 			name: 'content',
 			type: 'array',
-			of: [{ type: 'block' }, { type: 'custom-html' }, reputationBlock],
+			of: [{ type: 'custom-block' }, { type: 'custom-html' }, reputationBlock],
 			group: 'content',
 		}),
 		defineField({
@@ -44,8 +51,30 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
+			name: 'enableOrbs',
+			description:
+				'Enable animated orbs instead of an image. If used, the background image will be used as a fallback for legacy browsers. Leave blank colors for transparent.',
+			title: 'Enable',
+			type: 'boolean',
+			group: 'orbs',
+		}),
+		defineField({
+			name: 'orbFill',
+			title: 'Orb color',
+			type: 'simplerColor',
+			group: 'orbs',
+		}),
+		defineField({
+			name: 'orbBackground',
+			title: 'Background color',
+			type: 'simplerColor',
+			group: 'orbs',
+		}),
+		defineField({
 			name: 'assets',
 			title: 'Assets',
+			description:
+				'Image used as fallback when orb canvas is not supported (legacy browsers)',
 			type: 'array',
 			of: [{ type: 'img' }],
 			validation: (Rule) => Rule.max(1),

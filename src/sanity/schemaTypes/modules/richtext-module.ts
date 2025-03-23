@@ -23,7 +23,7 @@ export default defineType({
 			name: 'content',
 			type: 'array',
 			of: [
-				{ type: 'block' },
+				{ type: 'custom-block' },
 				imageBlock,
 				admonition,
 				defineArrayMember({

@@ -65,13 +65,7 @@ export const MODULES_QUERY = groq`
 			${REPUTATION_QUERY}
 		}
 	},
-	_type == 'hero.saas' => {
-		content[]{
-			...,
-			${REPUTATION_QUERY}
-		}
-	},
-	_type == 'hero.split' => {
+	_type == 'hero.largetext' => {
 		content[]{
 			...,
 			${REPUTATION_QUERY}
