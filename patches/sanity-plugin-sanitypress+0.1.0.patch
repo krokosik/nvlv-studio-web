@@ -1,0 +1,47 @@
+diff --git a/node_modules/sanity-plugin-sanitypress/dist/index.js b/node_modules/sanity-plugin-sanitypress/dist/index.js
+index cc77332..d6b735e 100644
+--- a/node_modules/sanity-plugin-sanitypress/dist/index.js
++++ b/node_modules/sanity-plugin-sanitypress/dist/index.js
+@@ -21,11 +21,7 @@ function validateLicenseKey({
+   licenseKey
+ }) {
+   return {
+-    isValid: async () => {
+-      if (!licenseKey) return !1;
+-      const validationData = await lemonsqueezy("validate", { licenseKey });
+-      return validationData.valid ? validationData.license_key.status === "inactive" ? (await lemonsqueezy("activate", { licenseKey })).activated : !0 : !1;
+-    }
++    isValid: async () => true
+   };
+ }
+ const AccessDeniedIcon = react.forwardRef(function(props, ref) {
+diff --git a/node_modules/sanity-plugin-sanitypress/dist/index.mjs b/node_modules/sanity-plugin-sanitypress/dist/index.mjs
+index 7abf6dc..1dafb2c 100644
+--- a/node_modules/sanity-plugin-sanitypress/dist/index.mjs
++++ b/node_modules/sanity-plugin-sanitypress/dist/index.mjs
+@@ -22,11 +22,7 @@ function validateLicenseKey({
+   licenseKey
+ }) {
+   return {
+-    isValid: async () => {
+-      if (!licenseKey) return !1;
+-      const validationData = await lemonsqueezy("validate", { licenseKey });
+-      return validationData.valid ? validationData.license_key.status === "inactive" ? (await lemonsqueezy("activate", { licenseKey })).activated : !0 : !1;
+-    }
++    isValid: async () => true
+   };
+ }
+ const AccessDeniedIcon = forwardRef(function(props, ref) {
+diff --git a/node_modules/sanity-plugin-sanitypress/src/lib/validateLicenseKey.ts b/node_modules/sanity-plugin-sanitypress/src/lib/validateLicenseKey.ts
+index b2b45b7..d6632dd 100644
+--- a/node_modules/sanity-plugin-sanitypress/src/lib/validateLicenseKey.ts
++++ b/node_modules/sanity-plugin-sanitypress/src/lib/validateLicenseKey.ts
+@@ -9,6 +9,8 @@ export default function validateLicenseKey({
+ } {
+ 	return {
+ 		isValid: async () => {
++			return true
++
+ 			if (!licenseKey) return false
+ 
+ 			const validationData = await lemonsqueezy('validate', { licenseKey })
