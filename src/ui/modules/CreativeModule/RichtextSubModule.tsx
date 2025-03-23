@@ -1,5 +1,5 @@
 import Pretitle from '@/ui/Pretitle'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from '../CustomPortableText'
 
 export type RichtextSubModuleType = Sanity.Module<'richtext'> &
 	Partial<{
@@ -15,7 +15,7 @@ export default function RichtextSubModule({
 	return (
 		<div className="richtext">
 			<Pretitle>{module.pretitle}</Pretitle>
-			<PortableText value={module.content} />
+			<CustomPortableText value={module.content} />
 		</div>
 	)
 }

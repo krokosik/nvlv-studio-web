@@ -1,5 +1,6 @@
 import Pretitle from '@/ui/Pretitle'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 
 export default function StatList({
 	pretitle,
@@ -25,7 +26,7 @@ export default function StatList({
 			{(pretitle || intro) && (
 				<header className="richtext text-center">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 

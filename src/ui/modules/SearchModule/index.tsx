@@ -1,5 +1,6 @@
 import Pretitle from '@/ui/Pretitle'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from '../CustomPortableText'
 import { Suspense } from 'react'
 import SearchForm from './SearchForm'
 import type { SearchScope } from './store'
@@ -25,7 +26,7 @@ export default function SearchModule({
 			{(pretitle || intro) && (
 				<header className="richtext text-center">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 

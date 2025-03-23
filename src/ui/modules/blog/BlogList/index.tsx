@@ -4,7 +4,8 @@ import { fetchSanityLive } from '@/sanity/lib/fetch'
 import { groq } from 'next-sanity'
 import moduleProps from '@/lib/moduleProps'
 import Pretitle from '@/ui/Pretitle'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from '../../CustomPortableText'
 import FilterList from '@/ui/modules/blog/BlogList/FilterList'
 import { Suspense } from 'react'
 import PostPreview from '../PostPreview'
@@ -67,7 +68,7 @@ export default async function BlogList({
 			{intro && (
 				<header className="richtext">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 

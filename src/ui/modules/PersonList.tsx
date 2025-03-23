@@ -1,5 +1,6 @@
 import Pretitle from '@/ui/Pretitle'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 import { Img } from '@/ui/Img'
 import { cn } from '@/lib/utils'
 
@@ -21,7 +22,7 @@ export default function PersonList({
 			{(pretitle || intro) && (
 				<header className="richtext">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 

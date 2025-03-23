@@ -8,8 +8,6 @@ import CardList from './CardList'
 import CustomHTML from './CustomHTML'
 import FlagList from './FlagList'
 import Hero from './Hero'
-import HeroSplit from './HeroSplit'
-import HeroSaaS from './HeroSaaS'
 import LogoList from './LogoList'
 import RichtextModule from './RichtextModule'
 import ScheduleModule from './ScheduleModule'
@@ -35,8 +33,6 @@ const MODULE_MAP = {
 	'custom-html': CustomHTML,
 	'flag-list': FlagList,
 	hero: Hero,
-	'hero.split': HeroSplit,
-	'hero.saas': HeroSaaS,
 	'logo-list': LogoList,
 	'person-list': dynamic(() => import('./PersonList')),
 	'pricing-list': dynamic(() => import('./PricingList')),

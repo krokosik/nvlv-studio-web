@@ -1,5 +1,6 @@
 import Pretitle from '@/ui/Pretitle'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 import Icon, { getPixels } from '@/ui/Icon'
 import { cn } from '@/lib/utils'
 
@@ -22,7 +23,7 @@ export default function FlagList({
 			{(pretitle || intro) && (
 				<header className="richtext mx-auto max-w-xl text-center text-balance">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 
@@ -49,7 +50,7 @@ export default function FlagList({
 						)}
 
 						<div className="richtext">
-							<PortableText value={content} />
+							<CustomPortableText value={content} />
 						</div>
 					</article>
 				))}

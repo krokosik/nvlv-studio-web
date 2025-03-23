@@ -2,7 +2,7 @@ import { fetchSanityLive } from '@/sanity/lib/fetch'
 import { groq } from 'next-sanity'
 import { LINK_QUERY } from '@/sanity/lib/queries'
 import Scheduler from './Scheduler'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from './modules/CustomPortableText'
 import CTA from '@/ui/CTA'
 
 export default async function Announcement() {
@@ -26,7 +26,7 @@ export default async function Announcement() {
 						className="bg-accent text-canvas flex items-center justify-center gap-x-4 p-2 text-center text-balance max-md:text-sm md:gap-x-6"
 					>
 						<div className="anim-fade-to-r [&_a]:link">
-							<PortableText value={content} />
+							<CustomPortableText value={content} />
 						</div>
 
 						<CTA className="link anim-fade-to-l shrink" link={cta} />

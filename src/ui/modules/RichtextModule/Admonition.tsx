@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from '../CustomPortableText'
 import { VscInfo, VscLightbulb, VscReport, VscWarning } from 'react-icons/vsc'
 
 export default function Admonition({
@@ -43,7 +43,7 @@ export default function Admonition({
 			</dt>
 
 			<dd>
-				<PortableText value={content} />
+				<CustomPortableText value={content} />
 			</dd>
 		</dl>
 	)

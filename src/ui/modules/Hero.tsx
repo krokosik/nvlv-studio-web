@@ -1,6 +1,7 @@
 import moduleProps from '@/lib/moduleProps'
 import { ResponsiveImg } from '@/ui/Img'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 import CTAList from '@/ui/CTAList'
 import Pretitle from '@/ui/Pretitle'
 import CustomHTML from './CustomHTML'
@@ -67,7 +68,7 @@ export default function Hero({
 							{pretitle}
 						</Pretitle>
 
-						<PortableText
+						<CustomPortableText
 							value={content}
 							components={{
 								types: {

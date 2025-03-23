@@ -1,5 +1,6 @@
 import moduleProps from '@/lib/moduleProps'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from '../CustomPortableText'
 import CTAsSubModule, { type CTAsSubModuleType } from './CTAsSubModule'
 import CustomHTMLSubmodule, {
 	type CustomHTMLSubmoduleType,
@@ -43,7 +44,7 @@ export default function CreativeModule({
 			<div className="section space-y-8">
 				{intro && (
 					<header className="richtext mx-auto max-w-xl text-center text-balance">
-						<PortableText value={intro} />
+						<CustomPortableText value={intro} />
 					</header>
 				)}
 
