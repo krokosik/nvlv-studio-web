@@ -33,16 +33,17 @@ export default async function Footer() {
 						</div>
 					)}
 
-					<Social className="mb-auto -ml-2" />
+					<div className="ml-auto flex flex-col items-end gap-3">
+						<Social className="mb-auto -ml-2" />
+						<Navigation />
+					</div>
 
 					<LanguageSwitcher className="mt-4 max-w-max" />
 				</div>
-
-				<Navigation />
 			</div>
 
 			{copyright && (
-				<div className="border-canvas/20 mx-auto flex max-w-screen-xl flex-wrap justify-center gap-x-6 gap-y-2 border-t p-4 pb-[max(1rem,env(safe-area-inset-bottom))] text-sm [&_a:hover]:underline">
+				<div className="border-canvas/20 mx-auto flex max-w-screen-xl flex-wrap justify-center gap-x-6 gap-y-2 border-t p-2 pb-[max(1rem,env(safe-area-inset-bottom))] text-sm [&_a:hover]:underline">
 					<CustomPortableText value={copyright} />
 				</div>
 			)}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
+import useResizeObserver from 'use-resize-observer'
 
 export default function Wrapper({
 	className,
@@ -11,21 +12,16 @@ export default function Wrapper({
 	const pathname = usePathname()
 
 	// set --header-height
-	useEffect(() => {
-		if (typeof window === 'undefined') return
-
-		function setHeight() {
+	useResizeObserver({
+		ref,
+		onResize: () => {
 			if (!ref.current) return
 			document.documentElement.style.setProperty(
 				'--header-height',
 				`${ref.current.offsetHeight ?? 0}px`,
 			)
-		}
-		setHeight()
-		window.addEventListener('resize', setHeight)
-
-		return () => window.removeEventListener('resize', setHeight)
-	}, [])
+		},
+	})
 
 	// close mobile menu after navigation
 	useEffect(() => {
