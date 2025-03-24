@@ -1,5 +1,6 @@
 import moduleProps from '@/lib/moduleProps'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from '../CustomPortableText'
 import CTAsSubModule, { type CTAsSubModuleType } from './CTAsSubModule'
 import CustomHTMLSubmodule, {
 	type CustomHTMLSubmoduleType,
@@ -41,12 +42,6 @@ export default function CreativeModule({
 	return (
 		<section {...moduleProps(props)}>
 			<div className="section space-y-8">
-				{intro && (
-					<header className="richtext mx-auto max-w-xl text-center text-balance">
-						<PortableText value={intro} />
-					</header>
-				)}
-
 				<div
 					className={cn(
 						'grid items-center md:grid-cols-[repeat(var(--col,1),minmax(0px,1fr))]',

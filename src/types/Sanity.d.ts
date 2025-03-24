@@ -142,6 +142,13 @@ declare global {
 			style?: string
 		}
 
+		interface HeroLine {
+			readonly _type: 'hero.line'
+			text?: string
+			iconLeft?: Image
+			iconRight?: Image
+		}
+
 		interface CustomHTML extends Module<'custom-html'> {
 			className?: string
 			html?: {

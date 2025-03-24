@@ -1,5 +1,6 @@
 import Pretitle from '@/ui/Pretitle'
-import { PortableText, stegaClean } from 'next-sanity'
+import { stegaClean } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 import { Img } from '@/ui/Img'
 import { VscSurroundWith } from 'react-icons/vsc'
 import { cn } from '@/lib/utils'
@@ -22,7 +23,7 @@ export default function TestimonialList({
 			{(pretitle || intro) && (
 				<header className="richtext">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 
@@ -45,7 +46,7 @@ export default function TestimonialList({
 							>
 								<blockquote className="flex flex-col items-center gap-4">
 									<div className="richtext text-balance">
-										<PortableText value={testimonial.content} />
+										<CustomPortableText value={testimonial.content} />
 									</div>
 
 									{testimonial.author && (

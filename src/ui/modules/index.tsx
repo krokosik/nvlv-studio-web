@@ -8,8 +8,7 @@ import CardList from './CardList'
 import CustomHTML from './CustomHTML'
 import FlagList from './FlagList'
 import Hero from './Hero'
-import HeroSplit from './HeroSplit'
-import HeroSaaS from './HeroSaaS'
+import HeroLargeText from './HeroLargeText'
 import LogoList from './LogoList'
 import RichtextModule from './RichtextModule'
 import ScheduleModule from './ScheduleModule'
@@ -19,6 +18,7 @@ import StepList from './StepList'
 import TabbedContent from './TabbedContent'
 import TestimonialList from './TestimonialList'
 import TestimonialFeatured from './TestimonialFeatured'
+import Spacer from './Spacer'
 
 import dynamic from 'next/dynamic'
 import { createDataAttribute } from 'next-sanity'
@@ -35,14 +35,14 @@ const MODULE_MAP = {
 	'custom-html': CustomHTML,
 	'flag-list': FlagList,
 	hero: Hero,
-	'hero.split': HeroSplit,
-	'hero.saas': HeroSaaS,
+	'hero.largetext': HeroLargeText,
 	'logo-list': LogoList,
 	'person-list': dynamic(() => import('./PersonList')),
 	'pricing-list': dynamic(() => import('./PricingList')),
 	'richtext-module': RichtextModule,
 	'schedule-module': ScheduleModule,
 	'search-module': SearchModule,
+	spacer: Spacer,
 	'stat-list': StatList,
 	'step-list': StepList,
 	'tabbed-content': TabbedContent,

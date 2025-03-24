@@ -1,5 +1,5 @@
 import Pretitle from '@/ui/Pretitle'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from '../CustomPortableText'
 import TabList from './TabList'
 import Wrapper from './Wrapper'
 import CTAList from '@/ui/CTAList'
@@ -28,7 +28,7 @@ export default function TabbedContent({
 			{(pretitle || intro) && (
 				<header className="richtext text-center">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 
@@ -59,7 +59,7 @@ export default function TabbedContent({
 								)}
 							>
 								<Pretitle>{tab.pretitle}</Pretitle>
-								<PortableText value={tab.content} />
+								<CustomPortableText value={tab.content} />
 								<CTAList ctas={tab.ctas} />
 							</div>
 						</Wrapper>

@@ -26,7 +26,7 @@ export default async function Social({ className }: ComponentProps<'div'>) {
 					case 'link':
 						return (
 							<CTA
-								className="px-2 py-1 group-has-[a:hover]:opacity-50 hover:!opacity-100"
+								className="px-2 py-1 text-2xl group-has-[a:hover]:opacity-50 hover:!opacity-100"
 								link={item}
 								key={key}
 							>

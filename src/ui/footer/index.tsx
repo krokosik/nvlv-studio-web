@@ -2,7 +2,7 @@ import { getSite } from '@/sanity/lib/queries'
 import Navigation from './Navigation'
 import Social from '@/ui/Social'
 import LanguageSwitcher from '@/ui/LanguageSwitcher'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from '../modules/CustomPortableText'
 import Link from 'next/link'
 import { Img } from '@/ui/Img'
 
@@ -29,21 +29,22 @@ export default async function Footer() {
 
 					{blurb && (
 						<div className="max-w-sm text-sm text-balance">
-							<PortableText value={blurb} />
+							<CustomPortableText value={blurb} />
 						</div>
 					)}
 
-					<Social className="mb-auto -ml-2" />
+					<div className="ml-auto flex flex-col items-end gap-3">
+						<Social className="mb-auto -ml-2" />
+						<Navigation />
+					</div>
 
 					<LanguageSwitcher className="mt-4 max-w-max" />
 				</div>
-
-				<Navigation />
 			</div>
 
 			{copyright && (
-				<div className="border-canvas/20 mx-auto flex max-w-screen-xl flex-wrap justify-center gap-x-6 gap-y-2 border-t p-4 pb-[max(1rem,env(safe-area-inset-bottom))] text-sm [&_a:hover]:underline">
-					<PortableText value={copyright} />
+				<div className="border-canvas/20 mx-auto flex max-w-screen-xl flex-wrap justify-center gap-x-6 gap-y-2 border-t p-2 pb-[max(1rem,env(safe-area-inset-bottom))] text-sm [&_a:hover]:underline">
+					<CustomPortableText value={copyright} />
 				</div>
 			)}
 		</footer>

@@ -1,5 +1,5 @@
 import Pretitle from '@/ui/Pretitle'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 
 export default function StepList({
 	pretitle,
@@ -17,7 +17,7 @@ export default function StepList({
 			{(pretitle || intro) && (
 				<header className="richtext mx-auto max-w-xl text-center text-balance">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 
@@ -29,7 +29,7 @@ export default function StepList({
 						</b>
 
 						<div className="richtext">
-							<PortableText value={step.content} />
+							<CustomPortableText value={step.content} />
 						</div>
 					</li>
 				))}

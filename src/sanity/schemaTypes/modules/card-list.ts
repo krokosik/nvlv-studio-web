@@ -24,7 +24,7 @@ export default defineType({
 		defineField({
 			name: 'intro',
 			type: 'array',
-			of: [{ type: 'block' }],
+			of: [{ type: 'custom-block' }],
 			group: 'content',
 		}),
 		defineField({
@@ -51,7 +51,7 @@ export default defineType({
 						defineField({
 							name: 'content',
 							type: 'array',
-							of: [{ type: 'block' }],
+							of: [{ type: 'custom-block' }],
 						}),
 						defineField({
 							name: 'ctas',

@@ -1,4 +1,4 @@
-import { PortableText } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 import { VscQuote, VscSurroundWith } from 'react-icons/vsc'
 import { Img } from '@/ui/Img'
 
@@ -18,7 +18,7 @@ export default function TestimonialFeatured({
 					<VscQuote className="text-accent inline-block shrink-0 text-4xl" />
 
 					<div className="self-center text-xl text-balance">
-						<PortableText value={testimonial.content} />
+						<CustomPortableText value={testimonial.content} />
 					</div>
 
 					<dl className="text-start">

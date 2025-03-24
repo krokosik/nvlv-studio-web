@@ -2,9 +2,10 @@
 @import './fonts.css';
 
 @theme {
-	--color-canvas: #fff;
-	--color-ink: #000;
-	--color-accent: #000;
+	--color-canvas: #000;
+	--color-ink: #fff;
+	--color-neutral: #f5e8c9;
+	--color-accent: #ec6c4f;
 
 	--max-height-fold: calc(100svh - var(--header-height));
 }
@@ -44,13 +45,12 @@
 	}
 
 	@keyframes target {
+
 		0%,
 		50% {
-			background-color: color-mix(
-				in oklab,
-				var(--color-amber-400) 50%,
-				transparent
-			);
+			background-color: color-mix(in oklab,
+					var(--color-amber-400) 50%,
+					transparent);
 		}
 	}
 
@@ -58,6 +58,10 @@
 		accent-color: var(--color-accent);
 		caret-color: var(--color-accent);
 		scroll-behavior: smooth;
+		text-transform: uppercase;
+		font-weight: 200;
+		letter-spacing: 0.04em;
+		text-align: justify;
 	}
 
 	body:has(dialog[open]) {
@@ -103,21 +107,24 @@
 @utility anim-fade {
 	--x: 0;
 	--y: 0;
-	animation: anim-fade-to var(--default-transition-duration) ease-in-out
-		forwards;
+	animation: anim-fade-to var(--default-transition-duration) ease-in-out forwards;
 }
+
 @utility anim-fade-to-l {
 	@apply anim-fade;
 	--x: 1rem;
 }
+
 @utility anim-fade-to-r {
 	@apply anim-fade;
 	--x: -1rem;
 }
+
 @utility anim-fade-to-t {
 	@apply anim-fade;
 	--y: 1rem;
 }
+
 @utility anim-fade-to-b {
 	@apply anim-fade;
 	--y: -1rem;
@@ -133,32 +140,37 @@
 /* typography */
 
 @utility h-base {
-	font-weight: bold;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
 }
 
 @utility h1 {
-	@apply h-base text-4xl;
+	@apply h-base text-3xl xl:text-4xl;
 }
+
 @utility h2 {
-	@apply h-base text-3xl;
+	@apply h-base text-2xl xl:text-3xl;
 }
+
 @utility h3 {
-	@apply h-base text-2xl;
+	@apply h-base text-xl xl:text-2xl;
 }
+
 @utility h4 {
-	@apply h-base text-xl;
+	@apply h-base text-lg xl:text-xl;
 }
+
 @utility h5 {
-	@apply h-base text-lg;
+	@apply h-base;
 }
+
 @utility h6 {
 	@apply h-base;
 }
 
 @utility technical {
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	font-weight: bold;
+	font-weight: 400;
 }
 
 @utility text-shadow {
@@ -229,23 +241,19 @@
 
 @utility overflow-fade {
 	--offset: 4rem;
-	mask: linear-gradient(
-		to right,
-		transparent,
-		black var(--offset),
-		black calc(100% - var(--offset)),
-		transparent
-	);
+	mask: linear-gradient(to right,
+			transparent,
+			black var(--offset),
+			black calc(100% - var(--offset)),
+			transparent);
 }
 
 @utility overflow-fade-r {
 	--offset: 4rem;
-	mask: linear-gradient(
-		to right,
-		black 50%,
-		black calc(100% - var(--offset)),
-		transparent
-	);
+	mask: linear-gradient(to right,
+			black 50%,
+			black calc(100% - var(--offset)),
+			transparent);
 }
 
 /* layout */
@@ -291,7 +299,7 @@
 		list-style: revert;
 		padding-left: 1.5em;
 
-		& > li > ol {
+		&>li>ol {
 			list-style: lower-alpha;
 		}
 	}
@@ -300,7 +308,7 @@
 		@apply link;
 	}
 
-	& :not(pre) > code {
+	& :not(pre)>code {
 		@apply bg-ink/10 rounded px-1;
 	}
 
@@ -347,9 +355,11 @@
 @utility skeleton {
 	@apply bg-ink/3 h-[1lh];
 }
+
 @utility skeleton-2 {
 	@apply bg-ink/3 h-[2lh];
 }
+
 @utility skeleton-3 {
 	@apply bg-ink/3 h-[3lh];
 }
@@ -385,7 +395,7 @@
 	overflow-x: auto;
 	scroll-snap-type: x mandatory;
 
-	& > * {
+	&>* {
 		flex: 0 0 min(var(--size, 300px), 80vw);
 		scroll-snap-align: center;
 	}

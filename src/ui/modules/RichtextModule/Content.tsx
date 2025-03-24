@@ -1,4 +1,4 @@
-import { PortableText } from 'next-sanity'
+import CustomPortableText from '../CustomPortableText'
 import AnchoredHeading from './AnchoredHeading'
 import { cn } from '@/lib/utils'
 
@@ -19,7 +19,7 @@ export default function Content({
 				className,
 			)}
 		>
-			<PortableText
+			<CustomPortableText
 				value={value}
 				components={{
 					block: {

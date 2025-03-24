@@ -1,6 +1,6 @@
 import { fetchSanityLive } from '@/sanity/lib/fetch'
 import { groq } from 'next-sanity'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 import Pretitle from '@/ui/Pretitle'
 import { Img } from '@/ui/Img'
 import { cn } from '@/lib/utils'
@@ -32,7 +32,7 @@ export default async function LogoList({
 			{(pretitle || intro) && (
 				<header className="richtext mx-auto max-w-screen-sm text-center text-balance">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 
@@ -56,7 +56,7 @@ export default async function LogoList({
 							<Img
 								className="h-[2.5em] w-[200px] shrink-0 object-contain px-4 max-sm:w-[150px]"
 								style={{ '--index': key } as React.CSSProperties}
-								image={logo.image?.[logoType] || logo.image?.default}
+								image={logo?.image?.[logoType] || logo.image?.default}
 								width={400}
 								alt={logo.name}
 								key={key}

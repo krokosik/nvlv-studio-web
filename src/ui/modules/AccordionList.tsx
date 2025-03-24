@@ -1,6 +1,6 @@
 import moduleProps from '@/lib/moduleProps'
 import Pretitle from '@/ui/Pretitle'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 import Image from './RichtextModule/Image'
 import Code from './RichtextModule/Code'
 import CustomHTML from './CustomHTML'
@@ -48,7 +48,7 @@ export default function AccordionList({
 				)}
 			>
 				<Pretitle>{pretitle}</Pretitle>
-				<PortableText value={intro} />
+				<CustomPortableText value={intro} />
 			</header>
 
 			<div className="mx-auto w-full max-w-screen-md">
@@ -82,7 +82,7 @@ export default function AccordionList({
 							})}
 						>
 							<div className="richtext" itemProp="text">
-								<PortableText
+								<CustomPortableText
 									value={content}
 									components={{
 										types: {

@@ -1,6 +1,6 @@
 import moduleProps from '@/lib/moduleProps'
 import Pretitle from '@/ui/Pretitle'
-import { PortableText } from 'next-sanity'
+import CustomPortableText from './CustomPortableText'
 import CTAList from '@/ui/CTAList'
 import { cn, formatCurrency } from '@/lib/utils'
 
@@ -16,7 +16,7 @@ export default function PricingList({
 			{(pretitle || intro) && (
 				<header className="richtext text-center">
 					<Pretitle>{pretitle}</Pretitle>
-					<PortableText value={intro} />
+					<CustomPortableText value={intro} />
 				</header>
 			)}
 
@@ -60,7 +60,7 @@ export default function PricingList({
 
 								<CTAList className="grid" ctas={tier.ctas} />
 								<div className="richtext">
-									<PortableText value={tier.content} />
+									<CustomPortableText value={tier.content} />
 								</div>
 							</article>
 						),
