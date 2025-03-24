@@ -26,9 +26,9 @@ export default function HeroLargeText({
 				<div className="section flex w-full flex-col">
 					<div
 						className={cn(
-							'mx-auto my-auto max-w-7xl text-center',
-							'text-4xl/[0.8] font-normal text-nowrap',
-							'xs:text-5xl/[0.8] sm:text-6xl/[0.8] md:text-7xl/[0.8] lg:text-8xl/[0.8] 2xl:text-9xl/[0.8]',
+							'mx-auto my-auto max-w-7xl text-center text-2xl',
+							'text-4xl font-normal text-nowrap',
+							'xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-9xl',
 						)}
 					>
 						{content.map(({ iconLeft, iconRight, text }) => (
@@ -51,7 +51,13 @@ export default function HeroLargeText({
 					</div>
 				</div>
 			)}
-			<div className="max-h-fold z-10 mx-auto my-auto size-full max-w-52 object-contain sm:size-full sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl">
+			<div
+				className={cn(
+					'max-h-fold z-10 mx-auto my-auto size-full max-w-52 object-contain',
+					'sm:size-full sm:max-w-xs md:max-w-sm lg:max-w-[30rem]',
+					'xl:max-w-lg 2xl:max-w-[38rem]',
+				)}
+			>
 				<LogoCanvas
 					fillColor={fillColor ?? 'transparent'}
 					backgroundColor="transparent"

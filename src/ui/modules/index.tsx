@@ -10,6 +10,7 @@ import FlagList from './FlagList'
 import Hero from './Hero'
 import HeroLargeText from './HeroLargeText'
 import LogoList from './LogoList'
+import Project from './Project'
 import RichtextModule from './RichtextModule'
 import ScheduleModule from './ScheduleModule'
 import SearchModule from './SearchModule'
@@ -39,6 +40,7 @@ const MODULE_MAP = {
 	'logo-list': LogoList,
 	'person-list': dynamic(() => import('./PersonList')),
 	'pricing-list': dynamic(() => import('./PricingList')),
+	project: Project,
 	'richtext-module': RichtextModule,
 	'schedule-module': ScheduleModule,
 	'search-module': SearchModule,

@@ -1,28 +1,74 @@
-import { forceSimulation, Simulation, SimulationNodeDatum } from 'd3-force'
+import {
+	forceLink,
+	forceSimulation,
+	Simulation,
+	SimulationLinkDatum,
+	SimulationNodeDatum,
+} from 'd3-force'
 import d3ForceBounce from 'd3-force-bounce'
 import d3ForceSurface from 'd3-force-surface'
+import FlatQueue from 'flatqueue'
+
+export interface SimulationParams {
+	gasDensity: number
+	orbRadiiInDim: number
+	temperature: number
+	maxLinkThicknessPerRadius: number
+	maxRangePerRadius: number
+	backgroundColor: string
+	fillColor: string
+}
+
+export interface Dims {
+	width: number
+	height: number
+}
 
 export interface SimulationNode extends SimulationNodeDatum {
 	type: 'orb' | 'gas'
 	r: number
+	x: number
+	y: number
+	vx: number
+	vy: number
 }
 
-export const NUM_ORBS = 5
+type Sim = Simulation<SimulationNode, SimulationLinkDatum<SimulationNode>>
 
-export function initSimulation(params: {
-	gasDensity: number
-	orbRadiiInDim: number
-	temperature: number
-	width: number
-	height: number
-}) {
-	const { width, height, orbRadiiInDim } = params
+export const NUM_ORBS = 5
+export const MIN_LINK_DISTANCE_PER_RANGE = 0.985
+
+export function initSimulation(
+	params: SimulationParams,
+	dims: Dims,
+	positions?: { x: number; y: number }[],
+): Sim {
+	const { orbRadiiInDim, maxRangePerRadius, maxLinkThicknessPerRadius } = params
+	const { width, height } = dims
 	const orbRadius = Math.min(width, height) / orbRadiiInDim
 	const gasRadius = Math.max(1, Math.sqrt(orbRadius) / 2)
+	const linkDistance =
+		(maxRangePerRadius * maxLinkThicknessPerRadius + 2) *
+		orbRadius *
+		MIN_LINK_DISTANCE_PER_RANGE
 
-	return forceSimulation(initOrbs({ ...params, orbRadius, gasRadius }))
+	const nodes = initOrbs(
+		{ ...params, orbRadius, gasRadius },
+		dims,
+		linkDistance,
+		positions,
+	)
+
+	const sim = forceSimulation(nodes)
 		.alphaDecay(0)
 		.velocityDecay(0)
+		.force(
+			'link',
+			forceLink<SimulationNode, SimulationLinkDatum<SimulationNode>>([])
+				.distance(() => linkDistance)
+				.strength(0.1)
+				.iterations(1),
+		)
 		.force(
 			'bounce',
 			d3ForceBounce().radius((d: SimulationNode) => d.r),
@@ -41,6 +87,54 @@ export function initSimulation(params: {
 		)
 		.on('tick', () => {})
 		.stop()
+
+	return sim
+}
+
+export function getNormalizedOrbPositions(
+	simulation: Sim,
+): { x: number; y: number }[] {
+	return simulation
+		.nodes()
+		.slice(0, NUM_ORBS)
+		.map(({ x, y, r }) => ({
+			x: x / r,
+			y: y / r,
+		}))
+}
+
+export function calculateTotalEnergy(simulation: Sim) {
+	const nodes = simulation.nodes()
+	return nodes.reduce(
+		(acc, { r, vx, vy }) => acc + r ** 2 * (vx! ** 2 + vy! ** 2),
+		0,
+	)
+}
+
+export function tickWithEnergyConservation(
+	simulation: Sim,
+	iterations: number = 1,
+) {
+	const E_i = calculateTotalEnergy(simulation)
+	simulation.tick(iterations)
+	const E_f = calculateTotalEnergy(simulation)
+
+	const scale = Math.sqrt(E_i / E_f)
+
+	// apply scaling to large orbs only
+	simulation.nodes().forEach((node) => {
+		node.vx *= scale
+		node.vy *= scale
+	})
+}
+
+export function getMSPGaps(
+	nodes: { x: number; y: number }[],
+	linkDistance: number,
+) {
+	return minimalSpanningTree(nodes).filter(
+		({ distance }) => distance >= linkDistance,
+	)
 }
 
 export function getCanvasPosition(
@@ -73,6 +167,11 @@ export function resizeCanvasToDisplaySize(
 		? Math.max(displayWidth, displayHeight)
 		: displayHeight
 
+	// Prevent resizing to zero, as it breaks the worker on display: none
+	if (!desiredHeight || !desiredWidth) {
+		return false
+	}
+
 	// Check if the canvas is not the same size.
 	const needResize =
 		canvas.width != desiredWidth || canvas.height != desiredHeight
@@ -87,48 +186,35 @@ export function resizeCanvasToDisplaySize(
 }
 
 export function draw(
-	ctx: CanvasRenderingContext2D,
-	params: {
-		numOrbs?: number
-		gasDensity: number
-		orbRadiiInDim: number
-		maxLinkThicknessPerRadius: number
-		maxRangePerRadius: number
-		temperature: number
-		width: number
-		height: number
-		backgroundColor: string
-		fillColor: string
-	},
-	simulation?: Simulation<SimulationNode, any> | undefined,
+	ctx: OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D,
+	params: SimulationParams,
+	dims: Dims,
+	simulation: Sim,
 ) {
-	const nodes = simulation?.nodes()
-	if (!nodes) {
-		return
-	}
+	const nodes = simulation.nodes()
 	const {
-		numOrbs = NUM_ORBS,
 		backgroundColor,
 		fillColor,
 		maxLinkThicknessPerRadius,
 		maxRangePerRadius,
 	} = params
-	const orbRadius = Math.min(params.width, params.height) / params.orbRadiiInDim
+	const { width, height } = dims
+	const orbRadius = Math.min(width, height) / params.orbRadiiInDim
 	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 	ctx.fillStyle = backgroundColor
 	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
 	ctx.fillStyle = fillColor
-	for (const node of nodes.slice(0, numOrbs)) {
+	for (const node of nodes.slice(0, NUM_ORBS)) {
 		if (node.type === 'orb') {
 			ctx.beginPath()
-			ctx.arc(node.x!, node.y!, node.r + 0.3, 0, 2 * Math.PI)
+			ctx.arc(node.x!, node.y!, node.r, 0, 2 * Math.PI)
 			ctx.fill()
 		}
 	}
 
-	for (let i = 0; i < numOrbs; i++) {
-		for (let j = i + 1; j < numOrbs; j++) {
+	for (let i = 0; i < NUM_ORBS; i++) {
+		for (let j = i + 1; j < NUM_ORBS; j++) {
 			const source = nodes[i]
 			const target = nodes[j]
 
@@ -206,62 +292,73 @@ export function draw(
 			ctx.moveTo(p1.x, p1.y)
 			ctx.quadraticCurveTo(h1.x, h1.y, mid1.x, mid1.y)
 			ctx.quadraticCurveTo(h3.x, h3.y, p3.x, p3.y)
-			ctx.arc(target.x, target.y, orbRadius, angle3, angle4)
+			ctx.lineTo(p4.x, p4.y)
 			ctx.quadraticCurveTo(h4.x, h4.y, mid2.x, mid2.y)
 			ctx.quadraticCurveTo(h2.x, h2.y, p2.x, p2.y)
-			ctx.arc(source.x, source.y, orbRadius, angle2, angle1)
 			ctx.closePath()
 			ctx.fillStyle = fillColor
 			ctx.fill()
 		}
 	}
+
+	// show msp
+	// const msp = minimalSpanningTree(nodes.slice(0, numOrbs));
+	// msp.forEach((edge) => {
+	//   ctx.beginPath();
+	//   ctx.moveTo(nodes[edge.source].x!, nodes[edge.source].y!);
+	//   ctx.lineTo(nodes[edge.target].x!, nodes[edge.target].y!);
+	//   ctx.strokeStyle = 'red';
+	//   ctx.lineWidth = 1;
+	//   ctx.stroke();
+	// });
 }
 
-export function initOrbs(params: {
-	numOrbs?: number
-	gasDensity: number
-	orbRadius: number
-	gasRadius: number
-	temperature: number
-	width: number
-	height: number
-}): SimulationNode[] {
-	const {
-		numOrbs = NUM_ORBS,
-		gasDensity,
-		orbRadius,
-		gasRadius,
-		temperature,
-		width,
-		height,
-	} = params
+export function initOrbs(
+	params: SimulationParams & { orbRadius: number; gasRadius: number },
+	dims: Dims,
+	linkDistance: number,
+	positions?: { x: number; y: number }[],
+): SimulationNode[] {
+	const { gasDensity, orbRadius, gasRadius, temperature } = params
+	const { width, height } = dims
 	const nodes: SimulationNode[] = []
 
-	const xRange = [orbRadius, width - orbRadius]
-	const yRange = [orbRadius, height - orbRadius]
-
-	for (let i = 0; i < numOrbs; i++) {
-		let x: number, y: number
-		while (true) {
-			x = random(xRange[0], xRange[1])
-			y = random(yRange[0], yRange[1])
-			let valid = true
-			for (const node of nodes) {
-				if (Math.hypot(node.x! - x, node.y! - y) < orbRadius * 2) {
-					valid = false
-					break
-				}
-			}
-			if (valid) break
-		}
-		nodes.push({
-			type: 'orb',
-			x,
-			y,
-			vx: 0,
-			vy: 0,
-			r: orbRadius,
+	if (positions) {
+		positions.forEach(({ x, y }) => {
+			nodes.push({
+				type: 'orb',
+				x: x * orbRadius,
+				y: y * orbRadius,
+				vx: 0,
+				vy: 0,
+				r: orbRadius,
+			})
 		})
+	} else {
+		while (true) {
+			const orbs = generateNonOverlappingOrbs(
+				orbRadius,
+				width - orbRadius,
+				orbRadius,
+				height - orbRadius,
+				orbRadius,
+				NUM_ORBS,
+			)
+
+			if (getMSPGaps(orbs, linkDistance).length === 0) {
+				orbs.forEach(({ x, y }) => {
+					nodes.push({
+						type: 'orb',
+						x,
+						y,
+						vx: 0,
+						vy: 0,
+						r: orbRadius,
+					})
+				})
+				break
+			}
+		}
 	}
 
 	const numDustParticales = gasDensity * width * height
@@ -278,6 +375,37 @@ export function initOrbs(params: {
 		}
 	}
 
+	return nodes
+}
+
+export function generateNonOverlappingOrbs(
+	xMin: number,
+	xMax: number,
+	yMin: number,
+	yMax: number,
+	orbRadius: number,
+	numOrbs: number,
+): { x: number; y: number }[] {
+	const nodes = []
+	for (let i = 0; i < numOrbs; i++) {
+		let x: number, y: number
+		while (true) {
+			x = random(xMin, xMax)
+			y = random(yMin, yMax)
+			let valid = true
+			for (const node of nodes) {
+				if (Math.hypot(node.x! - x, node.y! - y) < orbRadius * 2) {
+					valid = false
+					break
+				}
+			}
+			if (valid) break
+		}
+		nodes.push({
+			x,
+			y,
+		})
+	}
 	return nodes
 }
 
@@ -298,4 +426,54 @@ function shiftByAngle(x: number, y: number, angle: number, distance: number) {
 		x: x + Math.cos(angle) * distance,
 		y: y + Math.sin(angle) * distance,
 	}
+}
+
+const visited = new Set<{ x: number; y: number }>()
+const heap = new FlatQueue<[number, number]>()
+
+const addMSPEdges = (nodes: { x: number; y: number }[], nodeIndex: number) => {
+	const node = nodes[nodeIndex]
+	nodes.forEach((otherNode, otherIndex) => {
+		if (visited.has(otherNode)) return
+		const distance = Math.hypot(node.x - otherNode.x, node.y - otherNode.y)
+		heap.push([nodeIndex, otherIndex], distance)
+	})
+}
+
+export function minimalSpanningTree(nodes: { x: number; y: number }[]): {
+	source: number
+	target: number
+	distance: number
+}[] {
+	// find MSP using Prim's algorithm and distances as weights
+	visited.clear()
+	heap.clear()
+	const msp: {
+		source: number
+		target: number
+		distance: number
+	}[] = Array(nodes.length - 1)
+
+	visited.add(nodes[0])
+
+	addMSPEdges(nodes, 0)
+	let edge: [number, number] | undefined
+	while ((edge = heap.pop())) {
+		const [sourceIndex, targetIndex] = edge
+		const source = nodes[sourceIndex]
+		const target = nodes[targetIndex]
+
+		if (visited.has(nodes[targetIndex])) continue
+		visited.add(nodes[targetIndex])
+
+		msp[visited.size - 2] = {
+			source: sourceIndex,
+			target: targetIndex,
+			distance: Math.hypot(source.x - target.x, source.y - target.y),
+		}
+
+		addMSPEdges(nodes, targetIndex)
+	}
+
+	return msp
 }

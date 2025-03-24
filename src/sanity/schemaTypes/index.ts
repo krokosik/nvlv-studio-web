@@ -19,6 +19,7 @@ import testimonial from './misc/testimonial'
 
 // objects
 import cta from './objects/cta'
+import gallery from './objects/gallery'
 import heroLine from './objects/hero.line'
 import icon from './objects/icon'
 import img from './objects/img'
@@ -26,6 +27,7 @@ import link from './objects/link'
 import linkList from './objects/link.list'
 import metadata from './objects/metadata'
 import moduleOptions from './objects/module-options'
+import youtube from './objects/youtube'
 
 // modules
 import accordionList from './modules/accordion-list'
@@ -44,6 +46,7 @@ import heroLargetext from './modules/hero.largetext'
 import logoList from './modules/logo-list'
 import personList from './modules/person-list'
 import pricingList from './modules/pricing-list'
+import project from './modules/project'
 import richtextModule from './modules/richtext-module'
 import scheduleModule from './modules/schedule-module'
 import searchModule from './modules/search-module'
@@ -74,6 +77,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 
 	// objects
 	cta,
+	gallery,
 	heroLine,
 	icon,
 	img,
@@ -81,6 +85,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 	linkList,
 	metadata,
 	moduleOptions,
+	youtube,
 
 	// modules
 	accordionList,
@@ -99,6 +104,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 	logoList,
 	personList,
 	pricingList,
+	project,
 	richtextModule,
 	scheduleModule,
 	searchModule,

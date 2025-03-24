@@ -8,6 +8,47 @@
 	--color-accent: #ec6c4f;
 
 	--max-height-fold: calc(100svh - var(--header-height));
+
+	--grid-cols-32: repeat(32, minmax(0, 1fr));
+
+	--text-xs: 0.75rem;
+	--text-xs--line-height: 1rem;
+
+	--text-sm: 0.875rem;
+	--text-sm--line-height: 1.25rem;
+
+	--text-base: 1rem;
+	--text-base--line-height: 1.5rem;
+
+	--text-lg: 1.125rem;
+	--text-lg--line-height: 1.75rem;
+
+	--text-xl: 1.25rem;
+	--text-xl--line-height: 1.75rem;
+
+	--text-2xl: 1.5rem;
+	--text-2xl--line-height: 2rem;
+
+	--text-3xl: 1.875rem;
+	--text-3xl--line-height: 0.9;
+
+	--text-4xl: 2.25rem;
+	--text-4xl--line-height: 0.8;
+
+	--text-5xl: 3rem;
+	--text-5xl--line-height: 0.8;
+
+	--text-6xl: 3.75rem;
+	--text-6xl--line-height: 0.8;
+
+	--text-7xl: 4.5rem;
+	--text-7xl--line-height: 0.8;
+
+	--text-8xl: 6rem;
+	--text-8xl--line-height: 0.8;
+
+	--text-9xl: 8rem;
+	--text-9xl--line-height: 0.8;
 }
 
 @custom-variant hover (&:hover);
@@ -31,7 +72,7 @@
 			interpolate-size: allow-keywords;
 		}
 
-		:open::details-content {
+		:open:details-content {
 			height: auto;
 		}
 	}
@@ -59,8 +100,8 @@
 		caret-color: var(--color-accent);
 		scroll-behavior: smooth;
 		text-transform: uppercase;
-		font-weight: 200;
-		letter-spacing: 0.04em;
+		font-weight: 400;
+		letter-spacing: 0.04;
 		text-align: justify;
 	}
 
@@ -81,14 +122,14 @@
 	}
 
 	details {
-		&::details-content {
+		&:details-content {
 			overflow: clip;
 			transition-duration: var(--default-transition-duration);
 			transition-property: content-visibility, block-size;
 			transition-behavior: allow-discrete;
 		}
 
-		&:not(:open)::details-content {
+		&:not(:open):details-content {
 			block-size: 0;
 		}
 	}
@@ -139,38 +180,28 @@
 
 /* typography */
 
-@utility h-base {
-	font-weight: 400;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-}
-
 @utility h1 {
-	@apply h-base text-3xl xl:text-4xl;
+	@apply text-3xl xl:text-4xl;
 }
 
 @utility h2 {
-	@apply h-base text-2xl xl:text-3xl;
+	@apply text-2xl xl:text-3xl;
 }
 
 @utility h3 {
-	@apply h-base text-xl xl:text-2xl;
+	@apply text-xl xl:text-2xl;
 }
 
 @utility h4 {
-	@apply h-base text-lg xl:text-xl;
+	@apply text-lg xl:text-xl;
 }
 
-@utility h5 {
-	@apply h-base;
-}
-
-@utility h6 {
-	@apply h-base;
+@utility p {
+	@apply h1;
 }
 
 @utility technical {
-	font-weight: 400;
+	font-weight: 200;
 }
 
 @utility text-shadow {
@@ -287,12 +318,8 @@
 		@apply h4;
 	}
 
-	& h5 {
-		@apply h5;
-	}
-
-	& h6 {
-		@apply h6;
+	& p {
+		@apply p;
 	}
 
 	& :is(ul, ol) {

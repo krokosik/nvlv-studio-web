@@ -1,73 +1,87 @@
 'use client'
 import { useResizeObserver, useDebounceCallback } from 'usehooks-ts'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
-import { draw, initSimulation, resizeCanvasToDisplaySize } from './canvas.utils'
 import { cn } from '@/lib/utils'
+import { resizeCanvasToDisplaySize, SimulationParams } from './canvas.utils'
 
-export interface SimulationParams {
-	orbRadiiInDim: number
-	gasDensity: number
-	temperature: number
-	maxLinkThicknessPerRadius: number
-	maxRangePerRadius: number
-	backgroundColor: string
-	fillColor: string
+export interface LogoCanvasProps extends Partial<SimulationParams> {
+	static?: boolean
 	square?: boolean
 	globalAlpha?: number
 	objectFit?: 'contain' | 'cover'
 }
 
-const defaultParams: SimulationParams = {
+export const defaultParams: LogoCanvasProps = {
 	orbRadiiInDim: 20 / 3,
-	gasDensity: 0.0001,
+	gasDensity: 0.00005,
 	temperature: 5,
 	maxLinkThicknessPerRadius: 0.5,
 	maxRangePerRadius: 3 / 2,
 	backgroundColor: '#000',
 	fillColor: '#fff',
+	static: false,
 	square: false,
 	globalAlpha: 1,
 	objectFit: 'cover',
 }
 
-export default function LogoCanvas(props: Partial<SimulationParams>) {
-	const params = { ...defaultParams, ...props }
+export default function LogoCanvas(props: LogoCanvasProps) {
+	const params = { ...defaultParams, ...props } as Required<LogoCanvasProps>
 	const ref = useRef<HTMLCanvasElement>(null)
-	const intervalIdRef = useRef<NodeJS.Timeout | null>(null)
+	const workerRef = useRef<Worker | null>(null)
 
-	const setup = useCallback(() => {
+	const handleResize = useCallback(() => {
 		if (!ref.current) return
-
 		const canvas = ref.current
 		const needsResize = resizeCanvasToDisplaySize(canvas, params.square)
 
 		if (!needsResize) return
 
-		const ctx = canvas.getContext('2d')
-		if (!ctx) return
+		workerRef.current?.postMessage({
+			type: 'resize',
+			width: canvas.width,
+			height: canvas.height,
+		})
+	}, [ref.current, params.square])
 
-		ctx.globalAlpha = params.globalAlpha ?? 1
-
-		const { width, height } = canvas
-
-		const simulation = initSimulation({ ...params, width, height })
-
-		if (intervalIdRef.current) {
-			clearInterval(intervalIdRef.current)
-		}
-
-		intervalIdRef.current = setInterval(() => {
-			if (!ctx || !simulation) return
-			simulation?.tick()
-			draw(ctx, { ...params, width, height }, simulation)
-		}, 1000 / 60)
-	}, [params, ref.current])
-
-	const setupDebounced = useDebounceCallback(setup, 500, { leading: true })
+	const setupDebounced = useDebounceCallback(handleResize, 500, {
+		leading: true,
+	})
 
 	// @ts-ignore
 	useResizeObserver({ ref, onResize: setupDebounced })
+
+	useEffect(() => {
+		const canvas = ref.current
+		if (!canvas) return
+
+		workerRef.current = new Worker(
+			new URL('./canvas.worker.ts', import.meta.url),
+		)
+
+		workerRef.current.onmessage = (e) => {
+			const ctx = canvas.getContext('2d')
+			if (!ctx) return
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			ctx.globalAlpha = params.globalAlpha ?? 1
+			ctx.drawImage(e.data, 0, 0)
+		}
+
+		return () => {
+			workerRef.current?.postMessage({ type: 'stop' })
+			workerRef.current?.terminate()
+			workerRef.current = null
+		}
+	}, [])
+
+	useEffect(
+		() => {
+			if (!workerRef.current) return
+			workerRef.current.postMessage({ type: 'params', newParams: params })
+		},
+		Array(Object.values(params)),
+	)
 
 	return (
 		<canvas
