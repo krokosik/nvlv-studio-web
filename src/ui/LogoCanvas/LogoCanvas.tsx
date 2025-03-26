@@ -1,6 +1,5 @@
 'use client'
-import { useDebounceCallback } from '@react-hook/debounce'
-import useResizeObserver from 'use-resize-observer'
+import { useResizeObserver, useDebounceCallback } from 'usehooks-ts'
 import { useCallback, useRef } from 'react'
 
 import { draw, initSimulation, resizeCanvasToDisplaySize } from './canvas.utils'
@@ -65,8 +64,9 @@ export default function LogoCanvas(props: Partial<SimulationParams>) {
 		}, 1000 / 60)
 	}, [params, ref.current])
 
-	const setupDebounced = useDebounceCallback(setup, 500, true)
+	const setupDebounced = useDebounceCallback(setup, 500, { leading: true })
 
+	// @ts-ignore
 	useResizeObserver({ ref, onResize: setupDebounced })
 
 	return (

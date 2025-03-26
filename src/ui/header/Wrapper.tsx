@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import useResizeObserver from 'use-resize-observer'
+import { useResizeObserver } from 'usehooks-ts'
 
 export default function Wrapper({
 	className,
@@ -11,16 +11,18 @@ export default function Wrapper({
 	const ref = useRef<HTMLDivElement>(null)
 	const pathname = usePathname()
 
-	// set --header-height
+	const onResize = useCallback(() => {
+		if (!ref.current) return
+		document.documentElement.style.setProperty(
+			'--header-height',
+			`${ref.current.offsetHeight ?? 0}px`,
+		)
+	}, [ref.current])
+
 	useResizeObserver({
+		// @ts-ignore
 		ref,
-		onResize: () => {
-			if (!ref.current) return
-			document.documentElement.style.setProperty(
-				'--header-height',
-				`${ref.current.offsetHeight ?? 0}px`,
-			)
-		},
+		onResize,
 	})
 
 	// close mobile menu after navigation
