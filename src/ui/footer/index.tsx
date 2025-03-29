@@ -14,19 +14,19 @@ export default async function Footer() {
 	return (
 		<footer className="bg-ink text-canvas" role="contentinfo">
 			<div className="section flex flex-wrap justify-between gap-x-12 gap-y-8 max-sm:flex-col">
-				<div className="flex flex-col gap-3 self-stretch">
-					<Link className="h3 md:h2 max-w-max" href="/">
-						{logoImage ? (
-							<Img
-								className="max-h-[1.5em] w-auto"
-								image={logoImage}
-								alt={logo?.name || title}
-							/>
-						) : (
-							title
-						)}
-					</Link>
+				<Link className="h3 md:h2 max-w-max" href="/">
+					{logoImage ? (
+						<Img
+							className="max-h-[1.5em] w-auto"
+							image={logoImage}
+							alt={logo?.name || title}
+						/>
+					) : (
+						title
+					)}
+				</Link>
 
+				<div className="flex flex-col gap-3 self-stretch">
 					{blurb && (
 						<div className="max-w-sm text-sm text-balance">
 							<CustomPortableText value={blurb} />
