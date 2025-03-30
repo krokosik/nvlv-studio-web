@@ -25,6 +25,12 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
+			name: 'ordinal',
+			title: 'Ordinal number',
+			type: 'number',
+			group: 'content',
+		}),
+		defineField({
 			name: 'pretitle',
 			title: 'Pretitle',
 			type: 'string',
@@ -47,19 +53,19 @@ export default defineType({
 			name: 'textColor',
 			title: 'Text color',
 			type: 'simplerColor',
-			group: 'options',
+			group: 'content',
 		}),
 		defineField({
 			name: 'backgroundColor',
 			title: 'Background color',
 			type: 'simplerColor',
-			group: 'options',
+			group: 'content',
 		}),
 		defineField({
 			name: 'accentColor',
 			title: 'Accent color',
 			type: 'simplerColor',
-			group: 'options',
+			group: 'content',
 		}),
 	],
 	preview: {

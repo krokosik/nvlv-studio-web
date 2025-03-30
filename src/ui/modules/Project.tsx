@@ -16,6 +16,7 @@ import moduleProps from '@/lib/moduleProps'
 export default function Project({
 	title,
 	pretitle,
+	ordinal = 0,
 	description,
 	gallery,
 	textColor,
@@ -25,6 +26,7 @@ export default function Project({
 }: Partial<{
 	title: string
 	pretitle: string
+	ordinal: number
 	description: any
 	gallery: { images: any[] }
 	textColor: any
@@ -40,7 +42,7 @@ export default function Project({
 
 	return (
 		<section
-			className="md:max-h-fold mb-[var(--header-height)] w-full px-2 lg:px-20"
+			className="md:max-h-fold min-h-fold w-full px-2 lg:px-20"
 			style={{
 				backgroundColor: colors.backgroundColor,
 				color: colors.textColor,
@@ -56,7 +58,7 @@ export default function Project({
 						backgroundColor="transparent"
 					/>
 				</div>
-				<div className="col-span-full grid-cols-subgrid grid-rows-3 gap-x-6 px-4 pt-8 md:grid md:pt-0 xl:gap-x-0">
+				<div className="col-span-full grid-cols-subgrid grid-rows-3 gap-x-6 px-4 md:grid md:pt-0 xl:gap-x-0">
 					<div className="row-span-3 grid size-full grid-rows-subgrid text-5xl font-medium md:text-6xl xl:col-span-12 xl:col-start-8">
 						<span className="self-end" style={{ color: colors.accentColor }}>
 							//:
@@ -66,7 +68,9 @@ export default function Project({
 							<span style={{ color: colors.accentColor }}>:</span>
 							<br />
 							{title?.split(' ')[1]}
-							<span style={{ color: colors.accentColor }}>.01</span>
+							<span style={{ color: colors.accentColor }}>
+								.{ordinal?.toString().padStart(2, '0')}
+							</span>
 						</h3>
 					</div>
 					<div className="col-start-2 row-span-2 row-start-2 pt-8 md:pt-0 xl:col-span-12 xl:col-start-[20]">

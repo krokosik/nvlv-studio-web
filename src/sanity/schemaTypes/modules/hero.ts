@@ -33,11 +33,6 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
-			name: 'pretitle',
-			type: 'string',
-			group: 'content',
-		}),
-		defineField({
 			name: 'content',
 			type: 'array',
 			of: [{ type: 'custom-block' }, { type: 'custom-html' }, reputationBlock],
