@@ -12,7 +12,7 @@ export default async function (request: NextRequest) {
 
 	const T = await getTranslations()
 
-	const isPrefixed = !!T.find((t) =>
+	const isPrefixed = !!T?.find((t) =>
 		t.translations?.some(({ slug }) => slug === pathname),
 	)
 
