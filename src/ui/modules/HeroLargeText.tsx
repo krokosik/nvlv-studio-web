@@ -2,16 +2,19 @@ import { cn } from '@/lib/utils'
 import { stegaClean } from '@sanity/client/stega'
 import LogoCanvas from '../LogoCanvas/LogoCanvas'
 import { Img } from '../Img'
+import moduleProps from '@/lib/moduleProps'
 
 export default function HeroLargeText({
 	content,
 	orbFill,
 	backgroundColor,
+	...props
 }: Partial<{
 	content: Sanity.HeroLine[]
 	orbFill?: any
 	backgroundColor?: any
-}>) {
+}> &
+	Sanity.Module) {
 	const bgColor: string = stegaClean(backgroundColor?.value)
 	const fillColor: string = stegaClean(orbFill?.value)
 
@@ -21,6 +24,7 @@ export default function HeroLargeText({
 				'bg-ink text-canvas grid overflow-hidden py-10 *:col-span-full *:row-span-full',
 			)}
 			style={{ backgroundColor: bgColor }}
+			{...moduleProps(props)}
 		>
 			{content && (
 				<div className="section flex w-full flex-col">

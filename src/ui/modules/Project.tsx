@@ -11,6 +11,7 @@ import { Img } from '../Img'
 import Pretitle from '../Pretitle'
 import CustomPortableText from './CustomPortableText'
 import LogoCanvas from '../LogoCanvas/LogoCanvas'
+import moduleProps from '@/lib/moduleProps'
 
 export default function Project({
 	title,
@@ -20,6 +21,7 @@ export default function Project({
 	textColor,
 	backgroundColor,
 	accentColor,
+	...props
 }: Partial<{
 	title: string
 	pretitle: string
@@ -28,7 +30,8 @@ export default function Project({
 	textColor: any
 	backgroundColor: any
 	accentColor: any
-}>) {
+}> &
+	Sanity.Module) {
 	const colors = {
 		textColor: stegaClean(textColor.value) as string,
 		backgroundColor: stegaClean(backgroundColor.value) as string,
@@ -42,6 +45,7 @@ export default function Project({
 				backgroundColor: colors.backgroundColor,
 				color: colors.textColor,
 			}}
+			{...moduleProps(props)}
 		>
 			<div className="mx-auto max-w-7xl md:grid md:grid-cols-2 md:grid-rows-3 xl:grid-cols-32">
 				<div className="col-span-3 col-start-1 row-start-1 mt-12 hidden aspect-square xl:block">
