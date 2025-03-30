@@ -72,9 +72,9 @@
 			interpolate-size: allow-keywords;
 		}
 
-		:open:details-content {
+		/* :open:details-content {
 			height: auto;
-		}
+		} */
 	}
 
 	:target {
@@ -121,7 +121,7 @@
 		background-color: transparent;
 	}
 
-	details {
+	/* details {
 		&:details-content {
 			overflow: clip;
 			transition-duration: var(--default-transition-duration);
@@ -132,7 +132,7 @@
 		&:not(:open):details-content {
 			block-size: 0;
 		}
-	}
+	} */
 
 	::-webkit-details-marker {
 		display: none;
