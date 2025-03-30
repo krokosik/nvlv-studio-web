@@ -132,7 +132,6 @@ export async function getSite() {
 }
 
 export async function getTranslations() {
-	return null
 	return await fetchSanityLive<Sanity.Translation[]>({
 		query: groq`*[_type in ['page', 'blog.post'] && defined(language)]{
 			'slug': '/' + select(

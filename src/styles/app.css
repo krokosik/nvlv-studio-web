@@ -8,6 +8,7 @@
 	--color-accent: #ec6c4f;
 
 	--max-height-fold: calc(100svh - var(--header-height));
+	--min-height-fold: calc(100svh - var(--header-height));
 
 	--grid-cols-32: repeat(32, minmax(0, 1fr));
 
@@ -101,8 +102,12 @@
 		scroll-behavior: smooth;
 		text-transform: uppercase;
 		font-weight: 400;
-		letter-spacing: 0.04;
+		letter-spacing: 0.04px;
 		text-align: justify;
+	}
+
+	a {
+		letter-spacing: normal;
 	}
 
 	body:has(dialog[open]) {
