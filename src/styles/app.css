@@ -82,7 +82,7 @@
 		scroll-margin-top: var(--header-height);
 	}
 
-	:target:is(h1, h2, h3, h4, h5, h6, section) {
+	:target:is(h1, h2, h3, h4, h5, h6) {
 		animation: target 2s ease-in-out forwards;
 	}
 
