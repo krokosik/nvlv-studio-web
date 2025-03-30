@@ -50,7 +50,6 @@ import project from './modules/project'
 import richtextModule from './modules/richtext-module'
 import scheduleModule from './modules/schedule-module'
 import searchModule from './modules/search-module'
-import spacer from './modules/spacer'
 import statList from './modules/stat-list'
 import stepList from './modules/step-list'
 import tabbedContent from './modules/tabbed-content'
@@ -108,7 +107,6 @@ export const schemaTypes: SchemaTypeDefinition[] = [
 	richtextModule,
 	scheduleModule,
 	searchModule,
-	spacer,
 	statList,
 	stepList,
 	tabbedContent,

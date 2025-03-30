@@ -19,7 +19,6 @@ import StepList from './StepList'
 import TabbedContent from './TabbedContent'
 import TestimonialList from './TestimonialList'
 import TestimonialFeatured from './TestimonialFeatured'
-import Spacer from './Spacer'
 
 import dynamic from 'next/dynamic'
 import { createDataAttribute } from 'next-sanity'
@@ -44,7 +43,6 @@ const MODULE_MAP = {
 	'richtext-module': RichtextModule,
 	'schedule-module': ScheduleModule,
 	'search-module': SearchModule,
-	spacer: Spacer,
 	'stat-list': StatList,
 	'step-list': StepList,
 	'tabbed-content': TabbedContent,

@@ -23,7 +23,6 @@ export default defineField({
 		{ type: 'pricing-list' },
 		{ type: 'project' },
 		{ type: 'richtext-module' },
-		{ type: 'spacer' },
 		{ type: 'schedule-module' },
 		{ type: 'search-module' },
 		{ type: 'stat-list' },
