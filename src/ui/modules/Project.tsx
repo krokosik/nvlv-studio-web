@@ -42,14 +42,14 @@ export default function Project({
 
 	return (
 		<section
-			className="md:max-h-fold min-h-fold w-full px-2 lg:px-20"
+			className="lg:h-fold w-full pt-4 md:pt-0 lg:px-20"
 			style={{
 				backgroundColor: colors.backgroundColor,
 				color: colors.textColor,
 			}}
 			{...moduleProps(props)}
 		>
-			<div className="mx-auto max-w-7xl md:grid md:grid-cols-2 md:grid-rows-3 xl:grid-cols-32">
+			<div className="mx-auto h-full max-w-7xl md:grid md:grid-cols-2 md:grid-rows-3 xl:grid-cols-32">
 				<div className="col-span-3 col-start-1 row-start-1 mt-12 hidden aspect-square xl:block">
 					<LogoCanvas
 						static
@@ -74,7 +74,10 @@ export default function Project({
 						</h3>
 					</div>
 					<div className="col-start-2 row-span-2 row-start-2 pt-8 md:pt-0 xl:col-span-12 xl:col-start-[20]">
-						<Pretitle style={{ color: colors.accentColor }}>
+						<Pretitle
+							className="text-xl xl:text-2xl"
+							style={{ color: colors.accentColor }}
+						>
 							{pretitle}
 						</Pretitle>
 					</div>
@@ -87,7 +90,7 @@ export default function Project({
 								{gallery?.images.map((image) => (
 									<CarouselItem
 										key={image._key}
-										className={clsx(image._type !== 'youtube' && 'basis-2/3')}
+										// className={clsx(image._type !== 'youtube')}
 									>
 										<figure className="relative max-h-[58svh] w-full">
 											{image._type === 'youtube' ? (
@@ -103,7 +106,7 @@ export default function Project({
 						</Carousel>
 					</div>
 					<div className="size-full px-4 py-16 xl:col-span-12 xl:px-4 xl:py-0">
-						<div className="flex size-full flex-col justify-center">
+						<div className="3xl:text-4xl flex size-full flex-col justify-center text-2xl font-bold sm:text-3xl">
 							<CustomPortableText value={description} />
 						</div>
 					</div>

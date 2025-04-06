@@ -22,6 +22,7 @@ export default function CustomPortableText({
 					h6: (node) => <AnchoredHeading as="h6" {...node} />,
 				},
 				marks: {
+					...(components?.marks ?? {}),
 					textColor: ({ children, value }: PortableTextMarkComponentProps) => (
 						<span
 							style={{

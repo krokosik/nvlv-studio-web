@@ -8,7 +8,8 @@
 	--color-accent: #ec6c4f;
 
 	--max-height-fold: calc(100svh - var(--header-height));
-	--min-height-fold: calc(100svh - var(--header-height));
+	--min-height-fold: var(--max-height-fold);
+	--height-fold: var(--max-height-fold);
 
 	--grid-cols-32: repeat(32, minmax(0, 1fr));
 
@@ -188,23 +189,31 @@
 /* typography */
 
 @utility h1 {
-	@apply text-3xl xl:text-4xl;
+	@apply text-5xl xl:text-6xl;
 }
 
 @utility h2 {
-	@apply text-2xl xl:text-3xl;
+	@apply text-4xl xl:text-5xl;
 }
 
 @utility h3 {
-	@apply text-xl xl:text-2xl;
+	@apply text-3xl xl:text-4xl;
 }
 
 @utility h4 {
+	@apply text-2xl xl:text-3xl;
+}
+
+@utility h5 {
+	@apply text-xl xl:text-2xl;
+}
+
+@utility h6 {
 	@apply text-lg xl:text-xl;
 }
 
 @utility p {
-	@apply h1;
+	@apply text-base xl:text-lg;
 }
 
 @utility technical {

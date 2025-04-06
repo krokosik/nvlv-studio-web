@@ -2,6 +2,13 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 import { VscSymbolKeyword } from 'react-icons/vsc'
 import { imageBlock, admonition } from '../fragments'
 import { getBlockText } from 'sanitypress-utils'
+import {
+	FaAlignLeft,
+	FaAlignCenter,
+	FaAlignRight,
+	FaAlignJustify,
+} from 'react-icons/fa'
+import TextAlign from '@/sanity/ui/TextAlign'
 
 export default defineType({
 	name: 'richtext-module',
@@ -23,7 +30,43 @@ export default defineType({
 			name: 'content',
 			type: 'array',
 			of: [
-				{ type: 'custom-block' },
+				{
+					type: 'block',
+					marks: {
+						decorators: [
+							{ title: 'Strong', value: 'strong' },
+							{ title: 'Emphasis', value: 'em' },
+							{ title: 'Underline', value: 'underline' },
+							{ title: 'Code', value: 'code' },
+							{ title: 'Strikethrough', value: 'strike-through' },
+							{
+								title: 'Left',
+								value: 'left',
+								icon: FaAlignLeft,
+								component: (props) => TextAlign(props),
+							},
+							{
+								title: 'Center',
+								value: 'center',
+								icon: FaAlignCenter,
+								component: (props) => TextAlign(props),
+							},
+							{
+								title: 'Right',
+								value: 'right',
+								icon: FaAlignRight,
+								component: (props) => TextAlign(props),
+							},
+							{
+								title: 'Justify',
+								value: 'justify',
+								icon: FaAlignJustify,
+								component: (props) => TextAlign(props),
+							},
+						],
+						annotations: [{ type: 'textColor' }, { type: 'highlightColor' }],
+					},
+				},
 				imageBlock,
 				admonition,
 				defineArrayMember({

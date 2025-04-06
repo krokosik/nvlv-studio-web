@@ -32,6 +32,20 @@ export default function Content({
 							/>
 						),
 					},
+					marks: {
+						left: ({ children }: any) => (
+							<div className="text-left">{children}</div>
+						),
+						center: ({ children }: any) => (
+							<div className="w-full text-center">{children}</div>
+						),
+						right: ({ children }: any) => (
+							<div className="text-right">{children}</div>
+						),
+						jusitify: ({ children }: any) => (
+							<div className="text-justify">{children}</div>
+						),
+					},
 				}}
 			/>
 

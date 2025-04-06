@@ -40,7 +40,11 @@ export default defineType({
 			name: 'description',
 			title: 'Description',
 			type: 'array',
-			of: [{ type: 'custom-block' }],
+			of: [
+				{
+					type: 'custom-single-block',
+				},
+			],
 			group: 'content',
 		}),
 		defineField({

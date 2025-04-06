@@ -1,0 +1,9 @@
+export default function TextAlign(props: any) {
+	return (
+		<div
+			style={{ textAlign: props.value ? props.value : 'left', width: '100%' }}
+		>
+			{props.children}
+		</div>
+	)
+}
