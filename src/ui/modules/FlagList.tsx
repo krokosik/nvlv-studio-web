@@ -31,7 +31,7 @@ export default function FlagList({
 				{items?.map(({ icon, content }, key) => (
 					<article
 						className={cn(
-							'grid gap-4',
+							'grid gap-4 md:gap-0',
 							stegaClean(iconPosition) === 'left' &&
 								icon &&
 								'grid-cols-[var(--size)_1fr]',
