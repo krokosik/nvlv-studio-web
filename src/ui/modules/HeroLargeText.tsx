@@ -21,7 +21,7 @@ export default function HeroLargeText({
 	return (
 		<section
 			className={cn(
-				'bg-ink text-canvas grid overflow-hidden py-10 *:col-span-full *:row-span-full',
+				'bg-ink text-canvas max-h-fold grid overflow-hidden py-8 *:col-span-full *:row-span-full',
 			)}
 			style={{ backgroundColor: bgColor }}
 			{...moduleProps(props)}
@@ -57,7 +57,7 @@ export default function HeroLargeText({
 			)}
 			<div
 				className={cn(
-					'max-h-fold z-10 mx-auto my-auto size-full max-w-52 object-contain',
+					'z-10 mx-auto my-auto size-full max-w-52 object-contain',
 					'sm:size-full sm:max-w-xs md:max-w-sm lg:max-w-[30rem]',
 					'xl:max-w-lg 2xl:max-w-[38rem]',
 				)}
