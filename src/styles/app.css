@@ -201,19 +201,19 @@
 }
 
 @utility h4 {
-	@apply text-2xl xl:text-3xl;
+	@apply technical text-2xl xl:text-3xl;
 }
 
 @utility h5 {
-	@apply text-xl xl:text-2xl;
+	@apply technical text-xl xl:text-2xl;
 }
 
 @utility h6 {
-	@apply text-lg xl:text-xl;
+	@apply technical text-lg xl:text-xl;
 }
 
 @utility p {
-	@apply text-base xl:text-lg;
+	@apply technical text-base xl:text-lg;
 }
 
 @utility technical {
