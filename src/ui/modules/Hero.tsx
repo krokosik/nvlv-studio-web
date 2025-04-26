@@ -18,6 +18,7 @@ export default function Hero({
 	orbFill,
 	orbBackground,
 	assets,
+	maxHeight,
 	textAlign = 'center',
 	alignItems,
 	...props
@@ -30,6 +31,7 @@ export default function Hero({
 	orbFill?: any
 	orbBackground?: any
 	assets: Sanity.Img[]
+	maxHeight: number
 	textAlign: React.CSSProperties['textAlign']
 	alignItems: React.CSSProperties['alignItems']
 }> &
@@ -56,11 +58,15 @@ export default function Hero({
 					className="max-h-fold size-full object-cover"
 					width={2400}
 					draggable={false}
+					style={{ maxHeight }}
 				/>
 			)}
 
 			{enableOrbs && (
-				<div className="max-h-fold mx-auto size-full max-w-5xl object-cover">
+				<div
+					className="max-h-fold mx-auto size-full max-w-5xl object-cover"
+					style={{ maxHeight }}
+				>
 					<LogoCanvas
 						fillColor={fillColor ?? 'transparent'}
 						backgroundColor={backgroundColor ?? 'transparent'}

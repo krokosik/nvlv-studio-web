@@ -76,6 +76,13 @@ export default defineType({
 			group: 'asset',
 		}),
 		defineField({
+			name: 'maxHeight',
+			title: 'Max height',
+			type: 'number',
+			description: 'Set the max height of the image/orbs [px]',
+			group: 'options',
+		}),
+		defineField({
 			...alignItems,
 			fieldset: 'alignment',
 			group: 'options',
