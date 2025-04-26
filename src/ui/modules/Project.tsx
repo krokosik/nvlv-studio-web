@@ -44,7 +44,7 @@ export default function Project({
 
 	return (
 		<section
-			className="lg:h-fold w-full pt-4 md:pt-0 lg:px-20"
+			className="lg:h-fold w-full pt-4 md:pt-0 lg:max-h-[800px] lg:px-20"
 			style={{
 				backgroundColor: colors.backgroundColor,
 				color: colors.textColor,
@@ -94,11 +94,11 @@ export default function Project({
 										key={image._key}
 										// className={clsx(image._type !== 'youtube')}
 									>
-										<figure className="relative max-h-[58svh] w-full">
+										<figure className="relative max-h-[500px] w-full">
 											{image._type === 'youtube' ? (
 												<YouTubePlayer url={image.url} width="100%" />
 											) : (
-												<Img image={image} />
+												<Img className="mx-auto object-contain" image={image} />
 											)}
 										</figure>
 									</CarouselItem>
