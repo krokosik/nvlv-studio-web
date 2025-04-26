@@ -17,7 +17,7 @@ let animationFrameId: number | null = null
 let params: Required<LogoCanvasProps> | undefined
 
 let lastTime = 0
-const TARGET_FPS = 60
+const TARGET_FPS = 30
 const FRAME_TIME = 1000 / TARGET_FPS
 
 function createOffscreenCanvas(width: number, height: number) {

@@ -15,7 +15,7 @@ export interface LogoCanvasProps extends Partial<SimulationParams> {
 export const defaultParams: LogoCanvasProps = {
 	orbRadiiInDim: 20 / 3,
 	gasDensity: 0.00005,
-	temperature: 5,
+	temperature: 7,
 	maxLinkThicknessPerRadius: 0.5,
 	maxRangePerRadius: 3 / 2,
 	backgroundColor: '#000',
