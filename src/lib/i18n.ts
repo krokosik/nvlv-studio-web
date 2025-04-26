@@ -1,8 +1,8 @@
 import type { Language } from '@sanity/document-internationalization'
 
 export const supportedLanguages = [
-	{ id: 'en', title: 'English' },
-	{ id: 'pl', title: 'Polski' },
+	// { id: 'en', title: 'English' },
+	// { id: 'pl', title: 'Polski' },
 ] as const as Language[]
 
 export const languages = supportedLanguages.map((lang) => lang?.id)

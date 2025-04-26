@@ -132,24 +132,25 @@ export async function getSite() {
 }
 
 export async function getTranslations() {
-	return await fetchSanityLive<Sanity.Translation[]>({
-		query: groq`*[_type in ['page', 'blog.post'] && defined(language)]{
-			'slug': '/' + select(
-				_type == 'blog.post' => '${BLOG_DIR}/' + metadata.slug.current,
-				metadata.slug.current != 'index' => metadata.slug.current,
-				''
-			),
-			'translations': *[_type == 'translation.metadata' && references(^._id)].translations[].value->{
-				'slug': '/' + select(
-					_type == 'blog.post' => '${BLOG_DIR}/' + language + '/' + metadata.slug.current,
-					metadata.slug.current != 'index' => language + '/' + metadata.slug.current,
-					language
-				),
-				_type == 'blog.post' => {
-					'slugBlogAlt': '/' + language + '/${BLOG_DIR}/' + metadata.slug.current
-				},
-				language
-			}
-		}`,
-	})
+	return []
+	// return await fetchSanityLive<Sanity.Translation[]>({
+	// 	query: groq`*[_type in ['page', 'blog.post'] && defined(language)]{
+	// 		'slug': '/' + select(
+	// 			_type == 'blog.post' => '${BLOG_DIR}/' + metadata.slug.current,
+	// 			metadata.slug.current != 'index' => metadata.slug.current,
+	// 			''
+	// 		),
+	// 		'translations': *[_type == 'translation.metadata' && references(^._id)].translations[].value->{
+	// 			'slug': '/' + select(
+	// 				_type == 'blog.post' => '${BLOG_DIR}/' + language + '/' + metadata.slug.current,
+	// 				metadata.slug.current != 'index' => language + '/' + metadata.slug.current,
+	// 				language
+	// 			),
+	// 			_type == 'blog.post' => {
+	// 				'slugBlogAlt': '/' + language + '/${BLOG_DIR}/' + metadata.slug.current
+	// 			},
+	// 			language
+	// 		}
+	// 	}`,
+	// })
 }
