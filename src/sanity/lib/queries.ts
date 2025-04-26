@@ -131,7 +131,7 @@ export async function getSite() {
 	return site
 }
 
-export async function getTranslations() {
+export async function getTranslations(): Promise<Sanity.Translation[]> {
 	return []
 	// return await fetchSanityLive<Sanity.Translation[]>({
 	// 	query: groq`*[_type in ['page', 'blog.post'] && defined(language)]{
