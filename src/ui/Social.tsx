@@ -43,7 +43,7 @@ export default async function Social({ className }: ComponentProps<'div'>) {
 	)
 }
 
-function Icon({
+export function Icon({
 	url,
 	...props
 }: { url?: string } & React.ComponentProps<'svg'>) {

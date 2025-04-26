@@ -2,6 +2,7 @@ import { getSite } from '@/sanity/lib/queries'
 import CTA from '@/ui/CTA'
 import LinkList from './LinkList'
 import { cn } from '@/lib/utils'
+import Social, { Icon } from '../Social'
 
 export default async function Menu() {
 	const { headerMenu } = await getSite()
@@ -40,6 +41,8 @@ export default async function Menu() {
 						return null
 				}
 			})}
+
+			<Social className="md:hidden" />
 		</nav>
 	)
 }

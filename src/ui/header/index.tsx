@@ -40,8 +40,7 @@ export default async function Header() {
 				</div>
 
 				<Navigation />
-
-				<Social className="" />
+				<Social className="max-md:header-closed:hidden md:ms-auto" />
 
 				<CTAList
 					ctas={ctas}
