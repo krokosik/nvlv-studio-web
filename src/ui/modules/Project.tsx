@@ -6,6 +6,8 @@ import {
 	CarouselContent,
 	CarouselDots,
 	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
 } from '../components/ui/carousel'
 import { Img } from '../Img'
 import Pretitle from '../Pretitle'
@@ -75,7 +77,7 @@ export default function Project({
 					</div>
 					<div className="col-start-2 row-span-2 row-start-2 pt-8 md:pt-0 xl:col-span-12 xl:col-start-[20]">
 						<Pretitle
-							className="text-xl xl:text-2xl"
+							className="px-4 text-xl xl:text-2xl"
 							style={{ color: colors.accentColor }}
 						>
 							{pretitle}
@@ -102,11 +104,13 @@ export default function Project({
 									</CarouselItem>
 								))}
 							</CarouselContent>
+							<CarouselPrevious className="left-0 z-10 bg-inherit backdrop-blur-md backdrop-brightness-125 hover:bg-current" />
+							<CarouselNext className="right-0 z-10 bg-inherit backdrop-blur-md hover:bg-current" />
 							<CarouselDots />
 						</Carousel>
 					</div>
 					<div className="size-full px-4 py-16 xl:col-span-12 xl:px-4 xl:py-0">
-						<div className="3xl:text-4xl flex size-full flex-col justify-center text-2xl font-bold sm:text-3xl">
+						<div className="3xl:text-4xl flex size-full flex-col justify-center text-2xl font-normal sm:text-3xl">
 							<CustomPortableText value={description} />
 						</div>
 					</div>
