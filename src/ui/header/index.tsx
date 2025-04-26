@@ -7,6 +7,7 @@ import CTAList from '@/ui/CTAList'
 import Toggle from './Toggle'
 import { cn } from '@/lib/utils'
 import css from './Header.module.css'
+import Social from '../Social'
 
 export default async function Header() {
 	const { title, logo, ctas } = await getSite()
@@ -39,6 +40,8 @@ export default async function Header() {
 				</div>
 
 				<Navigation />
+
+				<Social className="" />
 
 				<CTAList
 					ctas={ctas}

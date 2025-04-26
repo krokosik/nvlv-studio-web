@@ -11,6 +11,7 @@ import {
 	FaXTwitter,
 	FaYoutube,
 } from 'react-icons/fa6'
+import { FiMail } from 'react-icons/fi'
 import { IoIosLink } from 'react-icons/io'
 import type { ComponentProps } from 'react'
 
@@ -50,6 +51,8 @@ function Icon({
 
 	return url?.includes('bsky.app') ? (
 		<FaBluesky {...props} />
+	) : url.startsWith('mailto:') ? (
+		<FiMail {...props} />
 	) : url?.includes('facebook.com') ? (
 		<FaFacebookF {...props} />
 	) : url?.includes('github.com') ? (
