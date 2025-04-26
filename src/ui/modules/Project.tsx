@@ -44,7 +44,7 @@ export default function Project({
 
 	return (
 		<section
-			className="lg:h-fold w-full pt-4 md:pt-0 lg:max-h-[800px] lg:px-20"
+			className="lg:h-fold w-full pt-4 md:pt-0 lg:max-h-[900px] lg:px-20"
 			style={{
 				backgroundColor: colors.backgroundColor,
 				color: colors.textColor,
