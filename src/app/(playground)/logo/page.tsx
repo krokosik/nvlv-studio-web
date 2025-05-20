@@ -20,13 +20,12 @@ import { useDebounceCallback, useResizeObserver } from 'usehooks-ts'
 export default function LogoPlaygroundPage() {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const simulationRef = useRef<Simulation<SimulationNode, any> | null>(null)
-	const offscreenCanvasRef = useRef<OffscreenCanvas | null>(null)
 	const animationFrameIdRef = useRef<number | null>(null)
 	const lastTimeRef = useRef(0)
 
 	const { FPS, ...props } = useControls({
 		orbRadiiInDim: {
-			value: defaultParams.orbRadiiInDim ?? 20 / 3,
+			value: defaultParams.orbRadiiInDim,
 			min: 4 / (Math.sqrt(3) - 1),
 			max: 8 / (Math.sqrt(3) - 1),
 			step: 0.01,
@@ -68,10 +67,6 @@ export default function LogoPlaygroundPage() {
 			value: defaultParams.fillColor,
 			label: 'Fill Color',
 		},
-		square: {
-			value: defaultParams.square,
-			label: 'Square',
-		},
 		static: {
 			value: defaultParams.static,
 			label: 'Static',
@@ -93,60 +88,52 @@ export default function LogoPlaygroundPage() {
 		}),
 	})
 
-	const animate = useCallback((timestamp: number) => {
-		const canvas = canvasRef.current
-		const ctx = canvas?.getContext('2d')
-		const offscreenCanvas = offscreenCanvasRef.current
-		const offscreenCtx = offscreenCanvas?.getContext('2d')
-		const simulation = simulationRef.current
+	const animate = useCallback(
+		(timestamp: number) => {
+			const canvas = canvasRef.current
+			const ctx = canvas?.getContext('2d')
+			const simulation = simulationRef.current
 
-		if (
-			!canvas ||
-			!ctx ||
-			!offscreenCanvas ||
-			!offscreenCtx ||
-			!simulation ||
-			!offscreenCanvasRef.current
-		)
-			return
+			if (!canvas || !ctx || !simulation) return
 
-		const deltaTime = timestamp - lastTimeRef.current
+			const deltaTime = timestamp - lastTimeRef.current
 
-		const FRAME_TIME = 1000 / FPS
+			const FRAME_TIME = 1000 / FPS
 
-		// Only update if enough time has passed
-		if (deltaTime >= FRAME_TIME || props.static) {
-			const nodes = simulation.nodes()
-			const link = simulation.force('link') as ForceLink<SimulationNode, any>
-			const links = getMSPGaps(
-				nodes.slice(0, NUM_ORBS),
-				link.distance()(1, 2, []),
-			)
-			link!.links(links)
+			// Only update if enough time has passed
+			if (deltaTime >= FRAME_TIME || props.static) {
+				const nodes = simulation.nodes()
+				const link = simulation.force('link') as ForceLink<SimulationNode, any>
+				const links = getMSPGaps(
+					nodes.slice(0, NUM_ORBS),
+					link.distance()(1, 2, []),
+				)
+				link!.links(links)
 
-			tickWithEnergyConservation(simulation)
+				tickWithEnergyConservation(simulation)
 
-			draw(
-				offscreenCtx,
-				props,
-				{ width: canvas.width, height: canvas.height },
-				simulation,
-			)
+				draw(
+					ctx,
+					props,
+					{ width: canvas.width, height: canvas.height },
+					simulation,
+				)
 
-			const imageBitmap = offscreenCanvas.transferToImageBitmap()
+				lastTimeRef.current = timestamp - (deltaTime % FRAME_TIME) // Adjust for any remainder
+			}
 
-			ctx.clearRect(0, 0, canvas.width, canvas.height)
-			ctx.drawImage(imageBitmap, 0, 0)
-
-			lastTimeRef.current = timestamp - (deltaTime % FRAME_TIME) // Adjust for any remainder
-		}
-
-		if (!props?.static) {
-			animationFrameIdRef.current = requestAnimationFrame(animate)
-		}
-	}, [])
+			if (!props?.static) {
+				animationFrameIdRef.current = requestAnimationFrame(animate)
+			}
+		},
+		[FPS, Array(Object.values(props))],
+	)
 
 	const handleResize = useCallback(() => {
+		if (animationFrameIdRef.current) {
+			cancelAnimationFrame(animationFrameIdRef.current)
+			animationFrameIdRef.current = null
+		}
 		if (!canvasRef.current) return
 		const canvas = canvasRef.current
 		const oldPositions =
@@ -157,14 +144,7 @@ export default function LogoPlaygroundPage() {
 					})
 				: undefined
 
-		const needsResize = resizeCanvasToDisplaySize(canvas, props.square)
-
-		if (!needsResize) return
-
-		offscreenCanvasRef.current = new OffscreenCanvas(
-			canvas.width,
-			canvas.height,
-		)
+		resizeCanvasToDisplaySize(canvas, false)
 
 		if (!props) return
 
@@ -177,7 +157,7 @@ export default function LogoPlaygroundPage() {
 		if (props.static || !animationFrameIdRef.current) {
 			animate(0)
 		}
-	}, [canvasRef.current, props.square])
+	}, [canvasRef.current])
 
 	const setupDebounced = useDebounceCallback(handleResize, 500, {
 		leading: true,
@@ -185,6 +165,10 @@ export default function LogoPlaygroundPage() {
 
 	useEffect(
 		() => {
+			if (animationFrameIdRef.current) {
+				cancelAnimationFrame(animationFrameIdRef.current)
+				animationFrameIdRef.current = null
+			}
 			const canvas = canvasRef.current
 			const simulation = simulationRef.current
 			if (!canvas || !simulation) return
@@ -199,6 +183,9 @@ export default function LogoPlaygroundPage() {
 				{ width: canvas.width, height: canvas.height },
 				oldPositions,
 			)
+			if (props.static || !animationFrameIdRef.current) {
+				animate(0)
+			}
 		},
 		Array(Object.values(props)),
 	)
