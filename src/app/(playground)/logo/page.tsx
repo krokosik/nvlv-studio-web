@@ -13,7 +13,7 @@ import {
 } from '@/ui/LogoCanvas/canvas.utils'
 import { defaultParams } from '@/ui/LogoCanvas/LogoCanvas'
 import { ForceLink, Simulation } from 'd3-force'
-import { button, useControls } from 'leva' // Import button
+import { button, Leva, useControls } from 'leva' // Import button
 import { useCallback, useEffect, useRef } from 'react'
 import { useDebounceCallback, useResizeObserver } from 'usehooks-ts'
 import { Context } from 'svgcanvas'
@@ -26,18 +26,18 @@ export default function LogoPlaygroundPage() {
 
 	const { FPS, ...props } = useControls({
 		orbRadiiInDim: {
-			value: defaultParams.orbRadiiInDim,
-			min: 4 / (Math.sqrt(3) - 1),
-			max: 8 / (Math.sqrt(3) - 1),
-			step: 0.01,
-			label: 'Orb Radii in Dim',
-		},
-		gasDensity: {
-			value: defaultParams.gasDensity,
+			value: 1 / defaultParams.orbRadiiInDim,
 			min: 0.01,
 			max: 1,
 			step: 0.01,
-			label: 'Gas Density/1k',
+			label: 'Orb Radius as Dim fraction',
+		},
+		gasDensity: {
+			value: defaultParams.gasDensity * 10000,
+			min: 0.01,
+			max: 1,
+			step: 0.01,
+			label: 'Gas Density/10k',
 		},
 		temperature: {
 			value: defaultParams.temperature,
@@ -123,7 +123,8 @@ export default function LogoPlaygroundPage() {
 		}),
 	})
 
-	props.gasDensity = props.gasDensity / 1000
+	props.orbRadiiInDim = 1 / props.orbRadiiInDim
+	props.gasDensity = props.gasDensity / 10000
 
 	const animate = useCallback(
 		(timestamp: number) => {
@@ -232,6 +233,7 @@ export default function LogoPlaygroundPage() {
 
 	return (
 		<div style={{ height: '100dvh', position: 'relative' }}>
+			<Leva oneLineLabels flat />
 			<canvas ref={canvasRef} className={cn('size-full')} />
 		</div>
 	)
