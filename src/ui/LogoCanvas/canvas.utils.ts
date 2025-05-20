@@ -93,13 +93,14 @@ export function initSimulation(
 
 export function getNormalizedOrbPositions(
 	simulation: Sim,
+	dims: Dims,
 ): { x: number; y: number }[] {
 	return simulation
 		.nodes()
 		.slice(0, NUM_ORBS)
 		.map(({ x, y }) => ({
-			x,
-			y,
+			x: x / dims.width,
+			y: y / dims.height,
 		}))
 }
 
@@ -327,8 +328,8 @@ export function initOrbs(
 		positions.forEach(({ x, y }) => {
 			nodes.push({
 				type: 'orb',
-				x,
-				y,
+				x: x * width,
+				y: y * height,
 				vx: 0,
 				vy: 0,
 				r: orbRadius,

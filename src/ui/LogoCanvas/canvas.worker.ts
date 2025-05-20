@@ -30,11 +30,15 @@ self.onmessage = (e: MessageEvent) => {
 
 	switch (type) {
 		case 'resize': {
+			const oldPositions =
+				canvas && simulation
+					? getNormalizedOrbPositions(simulation, {
+							width: canvas.width,
+							height: canvas.height,
+						})
+					: undefined
 			createOffscreenCanvas(width, height)
 			if (!params) return
-			const oldPositions = simulation
-				? getNormalizedOrbPositions(simulation)
-				: undefined
 			simulation = initSimulation(params, { width, height }, oldPositions)
 			if (params.static || !animationFrameId) {
 				animate(0)
@@ -46,7 +50,10 @@ self.onmessage = (e: MessageEvent) => {
 			params = newParams
 			if (!canvas || !simulation) return
 
-			const oldPositions = getNormalizedOrbPositions(simulation)
+			const oldPositions = getNormalizedOrbPositions(simulation, {
+				width: canvas.width,
+				height: canvas.height,
+			})
 			simulation = initSimulation(
 				params!,
 				{ width: canvas.width, height: canvas.height },
