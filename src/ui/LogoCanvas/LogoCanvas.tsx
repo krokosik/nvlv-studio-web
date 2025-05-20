@@ -12,7 +12,7 @@ export interface LogoCanvasProps extends Partial<SimulationParams> {
 	objectFit?: 'contain' | 'cover'
 }
 
-export const defaultParams: LogoCanvasProps = {
+export const defaultParams: Required<LogoCanvasProps> = {
 	orbRadiiInDim: 20 / 3,
 	gasDensity: 0.00005,
 	temperature: 7,
@@ -27,7 +27,7 @@ export const defaultParams: LogoCanvasProps = {
 }
 
 export default function LogoCanvas(props: LogoCanvasProps) {
-	const params = { ...defaultParams, ...props } as Required<LogoCanvasProps>
+	const params = { ...defaultParams, ...props }
 	const ref = useRef<HTMLCanvasElement>(null)
 	const workerRef = useRef<Worker | null>(null)
 
