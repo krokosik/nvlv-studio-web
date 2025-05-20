@@ -48,15 +48,15 @@ export default function LogoPlaygroundPage() {
 		},
 		maxLinkThicknessPerRadius: {
 			value: defaultParams.maxLinkThicknessPerRadius,
-			min: 0,
+			min: 0.01,
 			max: 1,
 			step: 0.01,
 			label: 'Max Link Thickness/Radius',
 		},
 		maxRangePerRadius: {
 			value: defaultParams.maxRangePerRadius,
-			min: 0,
-			max: 5,
+			min: 0.01,
+			max: 2,
 			step: 0.01,
 			label: 'Max Range/Radius',
 		},
@@ -109,8 +109,6 @@ export default function LogoPlaygroundPage() {
 				{ width: canvas.width, height: canvas.height },
 				simulation,
 			)
-
-			debugger
 
 			const svgData = ctx.getSerializedSvg()
 			const blob = new Blob([svgData], { type: 'image/svg+xml' })
