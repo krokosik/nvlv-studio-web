@@ -16,6 +16,7 @@ import { ForceLink, Simulation } from 'd3-force'
 import { button, useControls } from 'leva' // Import button
 import { useCallback, useEffect, useRef } from 'react'
 import { useDebounceCallback, useResizeObserver } from 'usehooks-ts'
+import { Context } from 'svgcanvas'
 
 export default function LogoPlaygroundPage() {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -79,12 +80,48 @@ export default function LogoPlaygroundPage() {
 			label: 'FPS',
 		},
 		ExportImage: button(() => {
-			console.log('Export Image clicked')
-			// Placeholder for actual export image logic
+			const canvas = canvasRef.current
+			if (!canvas) return
+
+			canvas.toBlob((blob) => {
+				if (!blob) return
+				const url = URL.createObjectURL(blob)
+				const a = document.createElement('a')
+				a.href = url
+				a.download = 'logo.png'
+				document.body.appendChild(a)
+				a.click()
+				document.body.removeChild(a)
+				URL.revokeObjectURL(url)
+			}, 'image/png')
 		}),
 		ExportSVG: button(() => {
-			console.log('Export SVG clicked')
-			// Placeholder for actual export SVG logic
+			const canvas = canvasRef.current
+			const simulation = simulationRef.current
+
+			if (!canvas || !simulation) return
+
+			const ctx = new Context(canvas.width, canvas.height)
+
+			draw(
+				ctx,
+				props,
+				{ width: canvas.width, height: canvas.height },
+				simulation,
+			)
+
+			debugger
+
+			const svgData = ctx.getSerializedSvg()
+			const blob = new Blob([svgData], { type: 'image/svg+xml' })
+			const url = URL.createObjectURL(blob)
+			const a = document.createElement('a')
+			a.href = url
+			a.download = 'logo.svg'
+			document.body.appendChild(a)
+			a.click()
+			document.body.removeChild(a)
+			URL.revokeObjectURL(url)
 		}),
 	})
 
