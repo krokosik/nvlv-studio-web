@@ -11,7 +11,7 @@ import {
 	SimulationNode,
 	tickWithEnergyConservation,
 } from '@/ui/LogoCanvas/canvas.utils'
-import { defaultParams } from '@/ui/LogoCanvas/LogoCanvas'
+import { defaultParams, LogoCanvasProps } from '@/ui/LogoCanvas/LogoCanvas'
 import { ForceLink, Simulation } from 'd3-force'
 import { button, Leva, useControls } from 'leva' // Import button
 import { useCallback, useEffect, useRef } from 'react'
@@ -22,6 +22,7 @@ export default function LogoPlaygroundPage() {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const simulationRef = useRef<Simulation<SimulationNode, any> | null>(null)
 	const animationFrameIdRef = useRef<number | null>(null)
+	const propsRef = useRef<LogoCanvasProps | null>(null)
 	const lastTimeRef = useRef(0)
 
 	const { FPS, ...props } = useControls({
@@ -98,14 +99,15 @@ export default function LogoPlaygroundPage() {
 		ExportSVG: button(() => {
 			const canvas = canvasRef.current
 			const simulation = simulationRef.current
+			const props = propsRef.current
 
-			if (!canvas || !simulation) return
+			if (!canvas || !simulation || !props) return
 
 			const ctx = new Context(canvas.width, canvas.height)
 
 			draw(
 				ctx,
-				props,
+				props as any,
 				{ width: canvas.width, height: canvas.height },
 				simulation,
 			)
@@ -125,6 +127,8 @@ export default function LogoPlaygroundPage() {
 
 	props.orbRadiiInDim = 1 / props.orbRadiiInDim
 	props.gasDensity = props.gasDensity / 10000
+
+	propsRef.current = props
 
 	const animate = useCallback(
 		(timestamp: number) => {
