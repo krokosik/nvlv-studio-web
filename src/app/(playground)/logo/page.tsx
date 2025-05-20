@@ -34,14 +34,14 @@ export default function LogoPlaygroundPage() {
 		},
 		gasDensity: {
 			value: defaultParams.gasDensity,
-			min: 0,
-			max: 0.001,
-			step: 0.00001,
-			label: 'Gas Density',
+			min: 0.01,
+			max: 1,
+			step: 0.01,
+			label: 'Gas Density/1k',
 		},
 		temperature: {
 			value: defaultParams.temperature,
-			min: 0,
+			min: 0.1,
 			max: 20,
 			step: 0.1,
 			label: 'Temperature',
@@ -122,6 +122,8 @@ export default function LogoPlaygroundPage() {
 			URL.revokeObjectURL(url)
 		}),
 	})
+
+	props.gasDensity = props.gasDensity / 1000
 
 	const animate = useCallback(
 		(timestamp: number) => {
