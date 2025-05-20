@@ -4,7 +4,7 @@ import LogoCanvas, {
 	defaultParams,
 	LogoCanvasProps,
 } from '@/ui/LogoCanvas/LogoCanvas'
-import { useControls } from 'leva'
+import { useControls, button } from 'leva' // Import button
 
 export default function LogoPlaygroundPage() {
 	const props = useControls({
@@ -51,11 +51,18 @@ export default function LogoPlaygroundPage() {
 			value: defaultParams.fillColor,
 			label: 'Fill Color',
 		},
+		ExportImage: button(() => {
+			console.log('Export Image clicked')
+			// Placeholder for actual export image logic
+		}),
+		ExportSVG: button(() => {
+			console.log('Export SVG clicked')
+			// Placeholder for actual export SVG logic
+		}),
 	})
 
 	return (
-		<div style={{ height: '100dvh' }}>
-			{/* Typescript should now be happy with props.objectFit type */}
+		<div style={{ height: '100dvh', position: 'relative' }}>
 			<LogoCanvas {...props} />
 		</div>
 	)
