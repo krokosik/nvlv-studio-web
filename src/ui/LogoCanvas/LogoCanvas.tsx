@@ -24,6 +24,8 @@ export const defaultParams: Required<LogoCanvasProps> = {
 	square: false,
 	globalAlpha: 1,
 	objectFit: 'cover',
+	showMSP: false,
+	showGas: false,
 }
 
 export default function LogoCanvas(props: LogoCanvasProps) {

@@ -80,6 +80,14 @@ export default function LogoPlaygroundPage() {
 			step: 1,
 			label: 'FPS',
 		},
+		showMSP: {
+			value: defaultParams.showMSP,
+			label: 'Show MSP',
+		},
+		showGas: {
+			value: defaultParams.showGas,
+			label: 'Show Gas',
+		},
 		ExportImage: button(() => {
 			const canvas = canvasRef.current
 			if (!canvas) return

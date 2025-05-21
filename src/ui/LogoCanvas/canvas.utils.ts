@@ -17,6 +17,8 @@ export interface SimulationParams {
 	maxRangePerRadius: number
 	backgroundColor: string
 	fillColor: string
+	showMSP: boolean
+	showGas: boolean
 }
 
 export interface Dims {
@@ -198,6 +200,8 @@ export function draw(
 		fillColor,
 		maxLinkThicknessPerRadius,
 		maxRangePerRadius,
+		showGas,
+		showMSP,
 	} = params
 	const { width, height } = dims
 	const orbRadius = Math.min(width, height) / params.orbRadiiInDim
@@ -211,6 +215,18 @@ export function draw(
 			ctx.beginPath()
 			ctx.arc(node.x!, node.y!, node.r, 0, 2 * Math.PI)
 			ctx.fill()
+		}
+	}
+
+	if (showGas) {
+		for (const node of nodes.slice(NUM_ORBS)) {
+			if (node.type === 'gas') {
+				ctx.beginPath()
+				ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'
+				ctx.arc(node.x!, node.y!, node.r, 0, 2 * Math.PI)
+				ctx.fill()
+				ctx.fillStyle = fillColor
+			}
 		}
 	}
 
@@ -302,16 +318,17 @@ export function draw(
 		}
 	}
 
-	// show msp
-	// const msp = minimalSpanningTree(nodes.slice(0, numOrbs));
-	// msp.forEach((edge) => {
-	//   ctx.beginPath();
-	//   ctx.moveTo(nodes[edge.source].x!, nodes[edge.source].y!);
-	//   ctx.lineTo(nodes[edge.target].x!, nodes[edge.target].y!);
-	//   ctx.strokeStyle = 'red';
-	//   ctx.lineWidth = 1;
-	//   ctx.stroke();
-	// });
+	if (showMSP) {
+		const msp = minimalSpanningTree(nodes.slice(0, NUM_ORBS))
+		msp.forEach((edge) => {
+			ctx.beginPath()
+			ctx.moveTo(nodes[edge.source].x!, nodes[edge.source].y!)
+			ctx.lineTo(nodes[edge.target].x!, nodes[edge.target].y!)
+			ctx.strokeStyle = 'red'
+			ctx.lineWidth = 1
+			ctx.stroke()
+		})
+	}
 }
 
 export function initOrbs(
